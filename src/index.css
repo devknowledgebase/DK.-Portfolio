@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2-variations'),
+       url('/fonts/ClashGrotesk-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/fonts/ClashDisplay-Variable.woff2') format('woff2-variations'),
+       url('/fonts/ClashDisplay-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+ --neutral-0: #FFFFFF;
+ --neutral-10: #F9FAFB;
+ --neutral-20: #E5E7EB;
+ --neutral-30: #D1D5DB;
+ --neutral-40: #AEB2BA;
+ --neutral-50: #6B7280;
+ --neutral-60: #4B5563;
+ --neutral-70: #374151;
+ --neutral-80: #1F2937;
+ --neutral-90: #111827;
+ --neutral-100: #030712;
+ --icon-scroll-size: 160px;
+ --primary-icon-size: 66px;
+ --secondary-icon-size: 66px;
+ --primary-font-size: 34px;
+ --secondary-font-size: 38px;
+ --card-width: 740px;
+ --card-height: 600px;
+ --card-border-radius: 40px;
+ --casestudy-tool-width: 70px;
+ --casestudy-tool-height: var(--casestudy-tool-width);
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  :root {
+    --icon-scroll-size: 110px;
+    --primary-icon-size: 48px;
+    --secondary-icon-size: 48px;
+    --primary-font-size: 24px;
+    --secondary-font-size: 26px;
+    --card-width: 100%;
+    --card-height: 480px;
+    --card-border-radius: 28px;
+    --casestudy-tool-width: 54px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root {
+    --icon-scroll-size: 80px;
+    --primary-icon-size: 36px;
+    --secondary-icon-size: 36px;
+    --primary-font-size: 18px;
+    --secondary-font-size: 20px;
+    --card-width: 100%;
+    --card-height: 320px;
+    --card-border-radius: 20px;
+    --casestudy-tool-width: 42px;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#Home,
+#Work,
+#About,
+#Footer {
+  scroll-margin-top: 90px;
+}

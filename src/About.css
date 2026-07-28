@@ -1,0 +1,121 @@
+.about {
+    width: 100%;
+    height: 110vh;
+}
+.about-text-1 {
+    font-family: 'ClashGrotesk';
+    font-size: 72px;
+    color: var(--neutral-100);
+    font-weight: 600;
+    max-width: 852px;
+    margin: 80px 0px 0px 72px;
+}
+.about-text-2 {
+    font-family: 'ClashGrotesk';
+    font-size: 18px;
+    color: var(--neutral-100);
+    font-weight: 400;
+    max-width: 781px;
+    margin: 20px 0px 0px 72px;
+    text-align: justify;
+}
+.about-btn {
+    width: 173px;
+    height: 56px;
+    background: var(--neutral-0);
+    border: 1.5px solid;
+    border-radius: 100px;
+    font-family: 'ClashGrotesk';
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0px 0px 68px;
+    cursor: pointer;
+    transition: border-width 0.1s linear;
+}
+.about-btn:hover {
+    border-width: 1.6px;
+}
+
+.tool-scroll-container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 80px;
+}
+
+.tool-scroll {
+    display: flex;
+    gap: 60px;
+    padding-right: 60px;
+    animation: scroll 20s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* ── Tablet (≤ 1024px) ───────────────────────────────── */
+@media (max-width: 1024px) {
+    .about {
+        height: auto;
+        padding-bottom: 40px;
+    }
+    .about-text-1 {
+        font-size: clamp(36px, 6vw, 72px);
+        margin: 60px 0 0 40px;
+        max-width: 90%;
+    }
+    .about-text-2 {
+        font-size: 16px;
+        margin-top: 16px;
+        padding-right: 10px  ;
+        max-width: 90%;
+    }
+    .about-btn {
+        margin: 32px 0 0 36px;
+    }
+    .tool-scroll-container {
+        margin-top: 56px;
+    }
+    .tool-scroll {
+        gap: 40px;
+        padding-right: 40px;
+    }
+}
+
+/* ── Mobile (≤ 640px) ────────────────────────────────── */
+@media (max-width: 640px) {
+    .about-text-1 {
+        font-size: clamp(28px, 8vw, 48px);
+        margin: 40px 0 0 20px;
+        max-width: 95%;
+    }
+    .about-text-2 {
+        font-size: 14px;
+        margin: 14px 0 0 20px;
+        max-width: 95%;
+    }
+    .about-btn {
+        margin: 24px 0 0 16px;
+        width: 150px;
+        height: 48px;
+        font-size: 14px;
+    }
+    .tool-scroll-container {
+        margin-top: 40px;
+    }
+    .tool-scroll {
+        gap: 24px;
+        padding-right: 24px;
+    }
+}
