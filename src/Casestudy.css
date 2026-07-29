@@ -183,6 +183,7 @@
 .casestudy-back-btn.large {
     padding: 16px 36px;
     font-size: 18px;
+    z-index: 9991;
 }
 
 @media (max-width: 1024px) {
@@ -381,6 +382,7 @@
     .pins-grid {
         flex-direction: column;
         align-items: center;
+        gap: 6px;
     }
     .pin-card {
         width: 100%;

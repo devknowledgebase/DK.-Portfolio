@@ -8,11 +8,19 @@ function Footer (){
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle');
     const [copied, setCopied] = useState(false);
+    const [copiedPhone, setCopiedPhone] = useState(false);
 
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
+        });
+    };
+
+    const copyPhoneToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+            setCopiedPhone(true);
+            setTimeout(() => setCopiedPhone(false), 2000);
         });
     };
 
@@ -95,8 +103,19 @@ function Footer (){
                             <span style={{fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB'}}>
                                 Phone
                             </span>
-                            <span style={{fontSize: 'var(--secondary-font-size)', fontWeight: '500'}}>
-                                +91-8287215900
+                            <span
+                                onClick={() => copyPhoneToClipboard('+91-8287215900')}
+                                title="Click to copy"
+                                style={{
+                                    fontSize: 'var(--secondary-font-size)',
+                                    fontWeight: '500',
+                                    cursor: 'pointer',
+                                    userSelect: 'none',
+                                    transition: 'opacity 0.2s',
+                                    opacity: copiedPhone ? 1 : 1,
+                                }}
+                            >
+                                {copiedPhone ? '✓ Copied!' : '+91-8287215900'}
                             </span>
                         </div>
                     </div>
