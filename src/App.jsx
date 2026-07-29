@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import LocomotiveScroll from 'locomotive-scroll'
 import './App.css'
 import Hero from './Hero.jsx'
@@ -10,6 +10,7 @@ import Casestudy from './Casestudy.jsx'
 
 function App() {
   const [showCaseStudy, setShowCaseStudy] = useState(false);
+  const savedScrollY = useRef(0);
 
   useEffect(() => {
     const ls = new LocomotiveScroll({
@@ -25,6 +26,13 @@ function App() {
     };
   }, [showCaseStudy]);
 
+  // Restore scroll position after returning from case study
+  useEffect(() => {
+    if (!showCaseStudy) {
+      window.scrollTo(0, savedScrollY.current);
+    }
+  }, [showCaseStudy]);
+
   return (
     <>
       {showCaseStudy ? (
@@ -32,7 +40,7 @@ function App() {
       ) : (
         <>
           <Hero />
-          <Work onOpenCaseStudy={() => setShowCaseStudy(true)} />
+          <Work onOpenCaseStudy={() => { savedScrollY.current = window.scrollY; window.scrollTo(0, 0); setShowCaseStudy(true); }} />
           <About />
           <Footer />
         </>
