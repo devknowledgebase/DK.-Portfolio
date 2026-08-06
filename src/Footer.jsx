@@ -64,7 +64,7 @@ function Footer (){
         setStatus('success');
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-            event: 'form_submit',
+            event: 'contact_form_submit',
             form_type: 'contact_messages' // Optional: metadata for GA4
         });
 
