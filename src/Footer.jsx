@@ -147,7 +147,7 @@ function Footer (){
                         </button>
                     </div>
                 ) : (
-                    <form className="contact-form" onSubmit={handleSubmit} noValidate>
+                    <form className="contact-form" id="form_submission" onSubmit={handleSubmit} noValidate>
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="name">Name</label>
