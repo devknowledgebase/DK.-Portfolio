@@ -61,9 +61,15 @@ function Footer (){
             console.error('Supabase insert error:', error);
             setStatus('error');
         } else {
-            setStatus('success');
-            setFormData({ name: '', email: '', message: '' });
-        }
+        setStatus('success');
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'form_submit',
+            form_type: 'contact_messages' // Optional: metadata for GA4
+        });
+
+        setFormData({ name: '', email: '', message: '' });
+    }
     };
 
     return (
@@ -147,7 +153,7 @@ function Footer (){
                         </button>
                     </div>
                 ) : (
-                    <form className="contact-form" id="form_submission" onSubmit={handleSubmit} noValidate>
+                    <form className="contact-form" onSubmit={handleSubmit} noValidate>
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="name">Name</label>
