@@ -1,0 +1,200 @@
+/* ==========================================================================
+   Loading Screen - DEV KUMAR (Fully Responsive GSAP 4-Phase Cinematic Intro)
+   ========================================================================== */
+
+.loading-screen {
+  --loader-bg: #000000;
+  --loader-color: #FFFFFF;
+  --loader-font-family: 'ClashGrotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --loader-font-weight: 600;
+
+  /* Fluid typography scaling smoothly from small mobile to 4K displays */
+  --loader-font-size: clamp(2rem, 7.5vw, 6.5rem);
+  --loader-letter-spacing: -0.025em;
+
+  /* Responsive spacing */
+  --loader-word-gap: clamp(14px, 3.2vw, 38px);
+  --loader-mono-gap: clamp(2px, 0.5vw, 6px);
+  --loader-dot-gap: clamp(2px, 0.35vw, 5px);
+  --loader-dot-width: clamp(8px, 1.4vw, 18px);
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background-color: var(--loader-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+  will-change: transform;
+}
+
+/* Center stage container: 100% viewport dimensions with flex centering */
+.loader-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Full wordmark wrapper */
+.loader-wordmark {
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  white-space: nowrap;
+  font-family: var(--loader-font-family);
+  font-size: var(--loader-font-size);
+  font-weight: var(--loader-font-weight);
+  color: var(--loader-color);
+  letter-spacing: var(--loader-letter-spacing);
+  line-height: 1;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  transition: padding-right 0.82s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* When monogram phase completes: optically balance DK. using right padding for the dot */
+.loader-wordmark.is-monogram {
+  padding-right: calc(var(--loader-dot-gap) + var(--loader-dot-width));
+}
+
+/* Word wrappers (Dev and Kumar) */
+.loader-word {
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Spacer between words: responsive gap that collapses to monogram gap in Phase 3 */
+.loader-word-spacer {
+  display: inline-block;
+  width: var(--loader-word-gap);
+  height: 1px;
+  flex-shrink: 0;
+  will-change: width;
+}
+
+/* Individual letter wrapper */
+.loader-letter-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  line-height: 1;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Letters that will be pulled down: masked with overflow hidden */
+.loader-letter-wrap.is-exit {
+  overflow: hidden;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+  min-width: 0;
+  will-change: width, transform, opacity;
+}
+
+/* When monogram phase is reached, exit letters are completely collapsed */
+.loader-wordmark.is-monogram .loader-letter-wrap.is-exit {
+  width: 0 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: none !important;
+}
+
+.loader-wordmark.is-monogram .loader-word-spacer {
+  width: var(--loader-mono-gap) !important;
+}
+
+/* D and K wrappers */
+.loader-letter-wrap.letter-d,
+.loader-letter-wrap.letter-k {
+  overflow: visible;
+  position: relative;
+}
+
+/* Inner letter container moved by GSAP */
+.loader-letter-inner {
+  display: inline-block;
+  line-height: 1;
+  will-change: transform, opacity;
+}
+
+/* Monogram dot: styled strictly in ClashGrotesk font family */
+.loader-monogram-dot {
+  position: absolute;
+  left: 100%;
+  bottom: 0;
+  margin-left: var(--loader-dot-gap);
+  font-family: 'ClashGrotesk', sans-serif;
+  font-weight: var(--loader-font-weight);
+  font-size: 1em;
+  line-height: 1;
+  color: var(--loader-color);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+.loader-wordmark.is-monogram .loader-monogram-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile and Landscape Responsiveness
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .loading-screen {
+    --loader-font-size: clamp(2.2rem, 8.5vw, 4.5rem);
+    --loader-word-gap: clamp(12px, 3.2vw, 24px);
+    --loader-mono-gap: clamp(2px, 0.6vw, 4px);
+    --loader-dot-gap: clamp(2px, 0.4vw, 4px);
+    --loader-dot-width: clamp(7px, 1.6vw, 13px);
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-screen {
+    --loader-font-size: clamp(1.85rem, 8.8vw, 2.75rem);
+    --loader-word-gap: clamp(10px, 3vw, 16px);
+    --loader-mono-gap: 2.5px;
+    --loader-dot-gap: 2px;
+    --loader-dot-width: 7px;
+  }
+}
+
+@media (max-width: 340px) {
+  .loading-screen {
+    --loader-font-size: 1.65rem;
+    --loader-word-gap: 8px;
+    --loader-mono-gap: 2px;
+    --loader-dot-gap: 1.5px;
+    --loader-dot-width: 6px;
+  }
+}
+
+/* Landscape orientation on mobile devices to prevent vertical overflow */
+@media (max-height: 480px) and (orientation: landscape) {
+  .loading-screen {
+    --loader-font-size: min(clamp(1.6rem, 6vw, 3rem), 16vh);
+    --loader-word-gap: 12px;
+  }
+}

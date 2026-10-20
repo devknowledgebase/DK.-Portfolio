@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './Footer.css'
-import {Logo, Phone, Email, Github, Linkdin, X, Check} from './assets/icons.jsx'
+import { Phone, Email, Github, Linkdin, X } from './assets/icons.jsx'
 import { supabase } from './utils/supabase'
 
-function Footer (){
+function Footer() {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle');
@@ -61,158 +61,158 @@ function Footer (){
             console.error('Supabase insert error:', error);
             setStatus('error');
         } else {
-        setStatus('success');
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            event: 'contact_form_submit',
-            form_type: 'contact_messages' // Optional: metadata for GA4
-        });
+            setStatus('success');
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'contact_form_submit',
+                form_type: 'contact_messages' // Optional: metadata for GA4
+            });
 
-        setFormData({ name: '', email: '', message: '' });
-    }
+            setFormData({ name: '', email: '', message: '' });
+        }
     };
 
     return (
         <>
-        <div className="footer" id="Footer">
-            {/* <Logo style={{width: '140px', color:'var(--neutral-0)', margin:'72px 0px 0px 72px'}}/> */}
-            <p className="contact-text-head">
-                Contect Me
-            </p>
-            <div className='footer-socials'>
-                <div className="social-icon-wraper">
-                    <div className='social-icon-wraper-content'>
-                        <Email style={{width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)'}}/>
-                        <div style={{display: 'flex', flexDirection: 'column', gap: '2px'}}>
-                            <span style={{fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB'}}>
-                                Email
-                            </span>
-                            <span
-                                onClick={() => copyToClipboard('kumard.07.dev@gmail.com')}
-                                title="Click to copy"
-                                style={{
-                                    fontSize: 'var(--secondary-font-size)',
-                                    fontWeight: '500',
-                                    cursor: 'pointer',
-                                    userSelect: 'none',
-                                    transition: 'opacity 0.2s',
-                                    opacity: copied ? 1 : 1,
-                                }}
-                            >
-                                {copied ? '✓ Copied!' : 'kumard.07.dev@gmail.com'}
-                            </span>
+            <div className="footer" id="Footer">
+                {/* <Logo style={{width: '140px', color:'var(--neutral-0)', margin:'72px 0px 0px 72px'}}/> */}
+                <p className="contact-text-head">
+                    Contect Me
+                </p>
+                <div className='footer-socials'>
+                    <div className="social-icon-wraper">
+                        <div className='social-icon-wraper-content'>
+                            <Email style={{ width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)' }} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                <span style={{ fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB' }}>
+                                    Email
+                                </span>
+                                <span
+                                    onClick={() => copyToClipboard('kumard.07.dev@gmail.com')}
+                                    title="Click to copy"
+                                    style={{
+                                        fontSize: 'var(--secondary-font-size)',
+                                        fontWeight: '500',
+                                        cursor: 'pointer',
+                                        userSelect: 'none',
+                                        transition: 'opacity 0.2s',
+                                        opacity: copied ? 1 : 1,
+                                    }}
+                                >
+                                    {copied ? '✓ Copied!' : 'kumard.07.dev@gmail.com'}
+                                </span>
+                            </div>
+                        </div>
+                        <div className='social-icon-wraper-content'>
+                            <Phone style={{ width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)' }} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                <span style={{ fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB' }}>
+                                    Phone
+                                </span>
+                                <span
+                                    onClick={() => copyPhoneToClipboard('+91-8287215900')}
+                                    title="Click to copy"
+                                    style={{
+                                        fontSize: 'var(--secondary-font-size)',
+                                        fontWeight: '500',
+                                        cursor: 'pointer',
+                                        userSelect: 'none',
+                                        transition: 'opacity 0.2s',
+                                        opacity: copiedPhone ? 1 : 1,
+                                    }}
+                                >
+                                    {copiedPhone ? '✓ Copied!' : '+91-8287215900'}
+                                </span>
+                            </div>
+                        </div>
+                        <div className='social-icon-wraper-links'>
+                            <a href="https://www.linkedin.com/in/kumaardev/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <Linkdin style={{ width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)' }} />
+                            </a>
+                            <a href="http://github.com/devknowledgebase" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                                <Github style={{ width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)' }} />
+                            </a>
+                            <a href="https://x.com/Dev3807" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                                <X style={{ width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)' }} />
+                            </a>
                         </div>
                     </div>
-                    <div className='social-icon-wraper-content'>
-                        <Phone style={{width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)'}}/>
-                        <div style={{display: 'flex', flexDirection: 'column', gap: '2px'}}>
-                            <span style={{fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB'}}>
-                                Phone
-                            </span>
-                            <span
-                                onClick={() => copyPhoneToClipboard('+91-8287215900')}
-                                title="Click to copy"
-                                style={{
-                                    fontSize: 'var(--secondary-font-size)',
-                                    fontWeight: '500',
-                                    cursor: 'pointer',
-                                    userSelect: 'none',
-                                    transition: 'opacity 0.2s',
-                                    opacity: copiedPhone ? 1 : 1,
-                                }}
-                            >
-                                {copiedPhone ? '✓ Copied!' : '+91-8287215900'}
-                            </span>
-                        </div>
-                    </div>
-                    <div className='social-icon-wraper-links'>
-                        <a href="https://www.linkedin.com/in/kumaardev/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <Linkdin style={{width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)'}}/>
-                        </a>
-                        <a href="http://github.com/devknowledgebase" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <Github style={{width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)'}}/>
-                        </a>
-                        <a href="https://x.com/Dev3807" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-                            <X style={{width: 'var(--secondary-icon-size)', height: 'var(--secondary-icon-size)'}}/>
-                        </a>
+                    <div className="contact-section">
+                        {status === 'success' ? (
+                            <div className="contact-success" role="alert">
+                                <p>Thanks for reaching out! I'll get back to you soon.</p>
+                                <button type="button" onClick={() => setStatus('idle')} className="submit-btn">
+                                    Send another message
+                                </button>
+                            </div>
+                        ) : status === 'error' ? (
+                            <div className="contact-success" role="alert">
+                                <p style={{ color: 'var(--neutral-40)' }}>Something went wrong. Please try again or email me directly.</p>
+                                <button type="button" onClick={() => setStatus('idle')} className="submit-btn">
+                                    Try again
+                                </button>
+                            </div>
+                        ) : (
+                            <form className="contact-form" onSubmit={handleSubmit} noValidate>
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="name">Name</label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            aria-invalid={!!errors.name}
+                                            aria-describedby={errors.name ? "name-error" : undefined}
+                                            className={errors.name ? 'error' : ''}
+                                        />
+                                        {errors.name && <span id="name-error" className="error-text" role="alert">{errors.name}</span>}
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            aria-invalid={!!errors.email}
+                                            aria-describedby={errors.email ? "email-error" : undefined}
+                                            className={errors.email ? 'error' : ''}
+                                        />
+                                        {errors.email && <span id="email-error" className="error-text" role="alert">{errors.email}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="message">Message</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        rows="4"
+                                        aria-invalid={!!errors.message}
+                                        aria-describedby={errors.message ? "message-error" : undefined}
+                                        className={errors.message ? 'error' : ''}
+                                    />
+                                    {errors.message && <span id="message-error" className="error-text" role="alert">{errors.message}</span>}
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="submit-btn"
+                                    disabled={status === 'submitting'}
+                                    aria-busy={status === 'submitting'}
+                                >
+                                    {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                                </button>
+                            </form>
+                        )}
                     </div>
                 </div>
-                <div className="contact-section">
-                {status === 'success' ? (
-                    <div className="contact-success" role="alert">
-                        <p>Thanks for reaching out! I'll get back to you soon.</p>
-                        <button type="button" onClick={() => setStatus('idle')} className="submit-btn">
-                            Send another message
-                        </button>
-                    </div>
-                ) : status === 'error' ? (
-                    <div className="contact-success" role="alert">
-                        <p style={{ color: 'var(--neutral-40)' }}>Something went wrong. Please try again or email me directly.</p>
-                        <button type="button" onClick={() => setStatus('idle')} className="submit-btn">
-                            Try again
-                        </button>
-                    </div>
-                ) : (
-                    <form className="contact-form" onSubmit={handleSubmit} noValidate>
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    aria-invalid={!!errors.name}
-                                    aria-describedby={errors.name ? "name-error" : undefined}
-                                    className={errors.name ? 'error' : ''}
-                                />
-                                {errors.name && <span id="name-error" className="error-text" role="alert">{errors.name}</span>}
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    aria-invalid={!!errors.email}
-                                    aria-describedby={errors.email ? "email-error" : undefined}
-                                    className={errors.email ? 'error' : ''}
-                                />
-                                {errors.email && <span id="email-error" className="error-text" role="alert">{errors.email}</span>}
-                            </div>
-                        </div>
-                        
-                        <div className="form-group">
-                            <label htmlFor="message">Message</label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                rows="4"
-                                aria-invalid={!!errors.message}
-                                aria-describedby={errors.message ? "message-error" : undefined}
-                                className={errors.message ? 'error' : ''}
-                            />
-                            {errors.message && <span id="message-error" className="error-text" role="alert">{errors.message}</span>}
-                        </div>
-
-                        <button 
-                            type="submit" 
-                            className="submit-btn" 
-                            disabled={status === 'submitting'}
-                            aria-busy={status === 'submitting'}
-                        >
-                            {status === 'submitting' ? 'Sending...' : 'Send Message'}
-                        </button>
-                    </form>
-                )}
             </div>
-            </div>
-        </div>
         </>
     )
 }

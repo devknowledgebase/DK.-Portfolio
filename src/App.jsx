@@ -7,12 +7,40 @@ import About from './About.jsx'
 import Footer from './Footer.jsx'
 import GradualBlur from './component/GradualBlur.jsx'
 import Casestudy from './Casestudy.jsx'
+import NotFound from './NotFound.jsx'
+import LoadingScreen from './LoadingScreen.jsx'
+
+function getRouteFromPath(pathname) {
+  const cleanPath = pathname.replace(/\/+$/, '') || '/';
+  if (cleanPath === '/' || cleanPath === '') {
+    return 'home';
+  }
+  if (cleanPath === '/casestudy' || cleanPath === '/case-study' || cleanPath === '/lunara') {
+    return 'casestudy';
+  }
+  return '404';
+}
 
 function App() {
-  const [showCaseStudy, setShowCaseStudy] = useState(false);
+  const [route, setRoute] = useState(() => getRouteFromPath(window.location.pathname));
+  const [isLoading, setIsLoading] = useState(true);
   const savedScrollY = useRef(0);
 
+  // Sync with browser back/forward buttons
   useEffect(() => {
+    const handlePopState = () => {
+      const nextRoute = getRouteFromPath(window.location.pathname);
+      setRoute(nextRoute);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // LocomotiveScroll for home page
+  useEffect(() => {
+    if (route !== 'home') return;
+
     const ls = new LocomotiveScroll({
       smooth: true,
       lerp: 0.08,
@@ -24,40 +52,78 @@ function App() {
     return () => {
       ls.destroy();
     };
-  }, [showCaseStudy]);
+  }, [route]);
 
-  // Restore scroll position after returning from case study
-  useEffect(() => {
-    if (!showCaseStudy) {
-      window.scrollTo(0, savedScrollY.current);
+  const navigateToHome = () => {
+    window.history.pushState(null, '', '/');
+    setRoute('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToSection = (sectionId) => {
+    if (sectionId === 'casestudy') {
+      navigateToCaseStudy();
+      return;
     }
-  }, [showCaseStudy]);
+    window.history.pushState(null, '', `/#${sectionId}`);
+    setRoute('home');
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 80);
+  };
+
+  const navigateToCaseStudy = () => {
+    savedScrollY.current = window.scrollY;
+    window.history.pushState(null, '', '/casestudy');
+    window.scrollTo(0, 0);
+    setRoute('casestudy');
+  };
+
+  const handleBackFromCaseStudy = () => {
+    window.history.pushState(null, '', '/');
+    setRoute('home');
+    setTimeout(() => {
+      window.scrollTo(0, savedScrollY.current);
+    }, 50);
+  };
 
   return (
     <>
-      {showCaseStudy ? (
-        <Casestudy onBack={() => setShowCaseStudy(false)} />
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {route === '404' ? (
+        <NotFound
+          onNavigateHome={navigateToHome}
+          onNavigateSection={navigateToSection}
+        />
+      ) : route === 'casestudy' ? (
+        <Casestudy onBack={handleBackFromCaseStudy} />
       ) : (
         <>
           <Hero />
-          <Work onOpenCaseStudy={() => { savedScrollY.current = window.scrollY; window.scrollTo(0, 0); setShowCaseStudy(true); }} />
+          <Work onOpenCaseStudy={navigateToCaseStudy} />
           <About />
           <Footer />
         </>
       )}
 
-      <GradualBlur
-        target="page"
-        position="bottom"
-        height="140px"
-        strength={2}
-        divCount={5}
-        curve="bezier"
-        exponential
-        opacity={1}
-      />
+      {route !== '404' && (
+        <GradualBlur
+          target="page"
+          position="bottom"
+          height="140px"
+          strength={2}
+          divCount={5}
+          curve="bezier"
+          exponential
+          opacity={1}
+        />
+      )}
     </>
   )
 }
 
 export default App
+

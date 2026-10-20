@@ -1,5 +1,5 @@
 import "./About.css";
-import {Download, Clerk, Css, Vercel, Figma, Gads, Ganalytics, Html, Js, Meta, Pinterest, React, Seen} from './assets/icons.jsx'
+import {Clerk, Css, Vercel, Figma, Gads, Ganalytics, Html, Js, Meta, Pinterest, React, Seen} from './assets/icons.jsx'
 
 const iconStyle = { width: "var(--icon-scroll-size)", height: "var(--icon-scroll-size)" };
 const tools = [

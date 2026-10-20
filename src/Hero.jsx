@@ -14,7 +14,7 @@ function Hero() {
     <>
       <div className='hero-container' id="Home">
         <div className='navbar'>
-          <Logo style={{ width: 50, height: 19 }} onClick={() => scrollToSection('Home')}/>
+          <Logo style={{ width: 50, height: 19 }} onClick={() => scrollToSection('Home')} />
           <div className="navlist">
             <div onClick={() => scrollToSection('Home')}>Home</div>
             <div onClick={() => scrollToSection('Work')}>Work</div>
