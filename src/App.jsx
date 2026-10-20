@@ -7,18 +7,14 @@ import About from './About.jsx'
 import Footer from './Footer.jsx'
 import GradualBlur from './component/GradualBlur.jsx'
 import Casestudy from './Casestudy.jsx'
-import NotFound from './NotFound.jsx'
 import LoadingScreen from './LoadingScreen.jsx'
 
 function getRouteFromPath(pathname) {
   const cleanPath = pathname.replace(/\/+$/, '') || '/';
-  if (cleanPath === '/' || cleanPath === '') {
-    return 'home';
-  }
   if (cleanPath === '/casestudy' || cleanPath === '/case-study' || cleanPath === '/lunara') {
     return 'casestudy';
   }
-  return '404';
+  return 'home';
 }
 
 function App() {
@@ -93,12 +89,7 @@ function App() {
   return (
     <>
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-      {route === '404' ? (
-        <NotFound
-          onNavigateHome={navigateToHome}
-          onNavigateSection={navigateToSection}
-        />
-      ) : route === 'casestudy' ? (
+      {route === 'casestudy' ? (
         <Casestudy onBack={handleBackFromCaseStudy} />
       ) : (
         <>
@@ -109,21 +100,18 @@ function App() {
         </>
       )}
 
-      {route !== '404' && (
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="140px"
-          strength={2}
-          divCount={5}
-          curve="bezier"
-          exponential
-          opacity={1}
-        />
-      )}
+      <GradualBlur
+        target="page"
+        position="bottom"
+        height="140px"
+        strength={2}
+        divCount={5}
+        curve="bezier"
+        exponential
+        opacity={1}
+      />
     </>
   )
 }
 
 export default App
-
