@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from 'react'
-import LocomotiveScroll from 'locomotive-scroll'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import './App.css'
 import Hero from './Hero.jsx'
 import Work from './Work.jsx'
 import About from './About.jsx'
 import Footer from './Footer.jsx'
 import GradualBlur from './component/GradualBlur.jsx'
-import Casestudy from './Casestudy.jsx'
 import LoadingScreen from './LoadingScreen.jsx'
+
+const Casestudy = lazy(() => import('./Casestudy.jsx'));
 
 function getRouteFromPath(pathname) {
   const cleanPath = pathname.replace(/\/+$/, '') || '/';
@@ -33,21 +33,43 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // LocomotiveScroll for home page
+  // LocomotiveScroll for home page - deferred to idle and skipped on mobile
   useEffect(() => {
     if (route !== 'home') return;
+    let ls = null;
+    let cancelled = false;
 
-    const ls = new LocomotiveScroll({
-      smooth: true,
-      lerp: 0.08,
-      multiplier: 1,
-      smartphone: { smooth: false },
-      tablet: { smooth: false },
-    });
+    const initScroll = async () => {
+      // Mobile & tablet already disable smooth scroll, so avoid loading locomotive-scroll on mobile
+      const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+      if (isMobile) return;
 
-    return () => {
-      ls.destroy();
+      const { default: LocomotiveScroll } = await import('locomotive-scroll');
+      if (cancelled) return;
+      ls = new LocomotiveScroll({
+        smooth: true,
+        lerp: 0.08,
+        multiplier: 1,
+        smartphone: { smooth: false },
+        tablet: { smooth: false },
+      });
     };
+
+    if ('requestIdleCallback' in window) {
+      const handle = requestIdleCallback(() => initScroll(), { timeout: 2000 });
+      return () => {
+        cancelled = true;
+        cancelIdleCallback(handle);
+        if (ls) ls.destroy();
+      };
+    } else {
+      const timer = setTimeout(() => initScroll(), 800);
+      return () => {
+        cancelled = true;
+        clearTimeout(timer);
+        if (ls) ls.destroy();
+      };
+    }
   }, [route]);
 
   const navigateToHome = () => {
@@ -90,14 +112,18 @@ function App() {
     <>
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       {route === 'casestudy' ? (
-        <Casestudy onBack={handleBackFromCaseStudy} />
+        <main>
+          <Suspense fallback={null}>
+            <Casestudy onBack={handleBackFromCaseStudy} />
+          </Suspense>
+        </main>
       ) : (
-        <>
+        <main id="main-content">
           <Hero />
           <Work onOpenCaseStudy={navigateToCaseStudy} />
           <About />
           <Footer />
-        </>
+        </main>
       )}
 
       <GradualBlur

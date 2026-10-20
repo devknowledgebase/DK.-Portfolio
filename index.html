@@ -5,15 +5,39 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+
+  <!-- Font Preloads (Critical for Hero FCP/LCP) -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/ClashGrotesk-Variable.woff2" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/ClashDisplay-Variable.woff2" />
+
+  <!-- Preload LCP Card Image -->
+  <link rel="preload" as="image" href="/src/assets/card-1-493.webp" imagesrcset="/src/assets/card-1-493.webp 493w, /src/assets/card-1-740.webp 740w, /src/assets/card-1-986.webp 986w" imagesizes="(max-width: 640px) 100vw, (max-width: 1100px) 100vw, 740px" fetchpriority="high" type="image/webp" />
+
+  <!-- Google Tag Manager (deferred to idle/user interaction) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function loadGTM() {
+      if (window._gtmLoaded) return;
+      window._gtmLoaded = true;
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start': new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-KM5L238X');</script>
+      })(window, document, 'script', 'dataLayer', 'GTM-KM5L238X');
+    }
+    if ('requestIdleCallback' in window) {
+      window.addEventListener('load', () => {
+        requestIdleCallback(() => setTimeout(loadGTM, 1500), { timeout: 3500 });
+      });
+    } else {
+      window.addEventListener('load', () => setTimeout(loadGTM, 1500));
+    }
+    ['scroll', 'keydown', 'touchstart', 'click'].forEach(evt => {
+      window.addEventListener(evt, loadGTM, { once: true, passive: true });
+    });
+  </script>
   <!-- End Google Tag Manager -->
 
   <!-- Primary SEO -->

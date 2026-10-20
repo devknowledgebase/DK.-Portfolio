@@ -1,8 +1,20 @@
 import './Work.css'
-import Card from "./assets/card-1.png"
-import Card1 from "./assets/card-2.png"
-import Card2 from "./assets/card-3.png"
-import Card3 from "./assets/card-4.png"
+import card1_493 from "./assets/card-1-493.webp"
+import card1_740 from "./assets/card-1-740.webp"
+import card1_986 from "./assets/card-1-986.webp"
+
+import card2_493 from "./assets/card-2-493.webp"
+import card2_740 from "./assets/card-2-740.webp"
+import card2_986 from "./assets/card-2-986.webp"
+
+import card3_493 from "./assets/card-3-493.webp"
+import card3_740 from "./assets/card-3-740.webp"
+import card3_986 from "./assets/card-3-986.webp"
+
+import card4_493 from "./assets/card-4-493.webp"
+import card4_740 from "./assets/card-4-740.webp"
+import card4_986 from "./assets/card-4-986.webp"
+
 import { Arrow_up_right } from './assets/icons.jsx'
 
 const workData = [
@@ -10,19 +22,22 @@ const workData = [
         id: 1,
         title: 'Ai Searcho',
         description: 'Web design of Ai based SEO Tool',
-        image: Card,
+        image: card1_740,
+        srcSet: `${card1_493} 493w, ${card1_740} 740w, ${card1_986} 986w`,
         className: 'work-card',
-        alt: 'card-1',
+        alt: 'Ai Searcho web design preview',
         badge: "Website",
         link: "https://ai-searcho.vercel.app/",
+        isLcp: true,
     },
     {
         id: 2,
         title: 'Genova Labs',
         description: 'Website design for a Biotech startup',
-        image: Card1,
+        image: card2_740,
+        srcSet: `${card2_493} 493w, ${card2_740} 740w, ${card2_986} 986w`,
         className: 'work-card',
-        alt: 'card-2',
+        alt: 'Genova Labs website design preview',
         badge: "Website",
         link: "https://devknowledgebase.github.io/Genova-Labs/",
     },
@@ -30,18 +45,20 @@ const workData = [
         id: 3,
         title: 'Lunara',
         description: 'Organic Pinterest Marketing',
-        image: Card2,
+        image: card3_740,
+        srcSet: `${card3_493} 493w, ${card3_740} 740w, ${card3_986} 986w`,
         className: 'work-card',
-        alt: 'card-3',
+        alt: 'Lunara Pinterest marketing preview',
         badge: "Marketing",
     },
     {
         id: 4,
         title: 'Washit',
         description: 'Laundry service App Ui/Ux Design',
-        image: Card3,
+        image: card4_740,
+        srcSet: `${card4_493} 493w, ${card4_740} 740w, ${card4_986} 986w`,
         className: 'work-card',
-        alt: 'card-4',
+        alt: 'Washit UI/UX case study preview',
         badge: "Case Study",
         link: "https://www.behance.net/gallery/253368559/Washit-UiUx-Case-Study",
     }
@@ -54,7 +71,17 @@ function Work({ onOpenCaseStudy }) {
             <div className='work-cards-container'>
                 {workData.map((item) => (
                     <div key={item.id} className={item.className}>
-                        <img src={item.image} alt={item.alt} />
+                        <img
+                            src={item.image}
+                            srcSet={item.srcSet}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1100px) 100vw, 740px"
+                            alt={item.alt}
+                            width="740"
+                            height="600"
+                            loading={item.isLcp ? undefined : "lazy"}
+                            decoding="async"
+                            fetchPriority={item.isLcp ? "high" : "low"}
+                        />
 
                         {item.badge && (
                             <span className='card-badge'>{item.badge}</span>

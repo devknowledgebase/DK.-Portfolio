@@ -58,6 +58,9 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
         const dotWidth = Math.max(6, Math.round(fontSize * 0.16));
         const dotGap = Math.max(2, Math.round(fontSize * 0.035));
 
+        // Pre-read initial wrapper widths in a single pass to eliminate forced reflow / layout thrashing
+        const initialWrapperWidths = exitWrappers.map((el) => (el ? el.getBoundingClientRect().width : 0));
+
         // Master animation timeline coordinating all 4 phases
         const tl = gsap.timeline();
 
@@ -102,12 +105,11 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
            ==================================================================== */
         tl.addLabel('converge');
 
-        // Set explicit starting pixel widths on wrappers so GSAP interpolates smoothly to 0
+        // Set explicit starting pixel widths on wrappers so GSAP interpolates smoothly to 0 (zero DOM reads)
         tl.call(() => {
-          exitWrappers.forEach((el) => {
-            if (el) {
-              const currentWidth = el.getBoundingClientRect().width;
-              gsap.set(el, { width: currentWidth });
+          exitWrappers.forEach((el, idx) => {
+            if (el && initialWrapperWidths[idx]) {
+              gsap.set(el, { width: initialWrapperWidths[idx] });
             }
           });
         }, null, 'converge');

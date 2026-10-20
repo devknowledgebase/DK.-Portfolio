@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './Footer.css'
 import { Phone, Email, Github, Linkdin, X } from './assets/icons.jsx'
-import { supabase } from './utils/supabase'
 
 function Footer() {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -53,6 +52,8 @@ function Footer() {
         }
 
         setStatus('submitting');
+        const { getSupabase } = await import('./utils/supabase');
+        const supabase = await getSupabase();
         const { error } = await supabase
             .from('contact_messages')
             .insert([{ name: formData.name, email: formData.email, message: formData.message }]);
