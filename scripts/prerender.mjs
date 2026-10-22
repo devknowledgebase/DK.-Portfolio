@@ -55,20 +55,33 @@ const ROUTE_DATA = {
       '@context': 'https://schema.org',
       '@graph': [
         {
-          '@type': 'WebSite',
-          name: 'Dev Kumar | Portfolio',
+          '@type': 'ProfilePage',
+          '@id': 'https://devkumar.is-a.dev/#profile',
           url: 'https://devkumar.is-a.dev/',
+          name: 'Dev Kumar | Portfolio',
+          dateCreated: '2025-01-01T00:00:00+00:00',
+          dateModified: '2026-10-22T00:00:00+00:00',
+          mainEntity: {
+            '@type': 'Person',
+            '@id': 'https://devkumar.is-a.dev/#person',
+            name: 'Dev Kumar',
+            url: 'https://devkumar.is-a.dev/',
+            jobTitle: 'Frontend Developer & Digital Marketing Enthusiast',
+            description:
+              'Building modern websites with code, creativity, and digital strategy. Frontend Developer and Digital Marketing enthusiast with experience in React.js, HTML, CSS, JavaScript, Figma, SEO, and content marketing.',
+            image: 'https://devkumar.is-a.dev/og-preview.png',
+            sameAs: [
+              'https://www.linkedin.com/in/kumaardev/',
+              'https://github.com/devknowledgebase',
+              'https://x.com/Dev3807',
+            ],
+          },
         },
         {
-          '@type': 'Person',
-          name: 'Dev Kumar',
+          '@type': 'WebSite',
+          '@id': 'https://devkumar.is-a.dev/#website',
+          name: 'Dev Kumar | Portfolio',
           url: 'https://devkumar.is-a.dev/',
-          jobTitle: 'Frontend Developer & Digital Marketing Enthusiast',
-          sameAs: [
-            'https://www.linkedin.com/in/kumaardev/',
-            'https://github.com/devknowledgebase',
-            'https://x.com/Dev3807',
-          ],
         },
       ],
     },
@@ -107,6 +120,9 @@ const ROUTE_DATA = {
       headline: 'Lunara — Pinterest Marketing Case Study',
       description:
         'How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization.',
+      image: 'https://devkumar.is-a.dev/og-preview.png',
+      datePublished: '2026-01-15T00:00:00+00:00',
+      dateModified: '2026-10-22T00:00:00+00:00',
       author: {
         '@type': 'Person',
         name: 'Dev Kumar',
