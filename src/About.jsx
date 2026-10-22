@@ -19,15 +19,15 @@ const tools = [
 function About(){
     return(
         <>
-            <div className="about" id="About">
-                <p className="about-text-1">Combining Development, Design, and Digital Marketing</p>
+            <section className="about" id="About">
+                <h2 className="about-text-1">Combining Development, Design, and Digital Marketing</h2>
                 <p className="about-text-2">Building modern websites with code, creativity, and digital strategy.
                     I'm a Frontend Developer and Digital Marketing enthusiast with experience in React.js, HTML, CSS, JavaScript, Figma, SEO, and content marketing. I enjoy creating responsive, user-friendly websites while applying SEO and analytics to improve visibility and engagement. From designing interfaces in Figma to developing them with React and optimizing them for search engines, I'm passionate about building digital experiences that are both beautiful and effective.
                 </p>
-                <button className="about-btn" onClick={() => window.open('/Resume_.pdf', '_blank')}>
+                <a href="/Resume_.pdf" className="about-btn" target="_blank" rel="noopener noreferrer" style={{ color: '#000000', textDecoration: 'none' }}>
                     View CV
-                    <Seen style= {{width: 20, height: 20}}/> 
-                </button>
+                    <Seen style={{ width: 20, height: 20, color: '#000000' }} /> 
+                </a>
                 <div className="tool-scroll-container">
                     <div className="tool-scroll">
                         {tools}
@@ -36,7 +36,7 @@ function About(){
                         {tools}
                     </div>
                 </div>
-            </div>
+            </section>
         </>
     )
 }

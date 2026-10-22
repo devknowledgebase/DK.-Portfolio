@@ -31,6 +31,18 @@ body {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 1);
 }
+.logo-link {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    text-decoration: none;
+}
+.logo-link:hover,
+.logo-link:visited,
+.logo-link:active {
+    color: #000000;
+    text-decoration: none;
+}
 .navlist {
     display: flex;
     gap: 40px;
@@ -38,12 +50,14 @@ body {
     font-size: 20px; 
     font-family: 'ClashGrotesk';
 }
-.navlist > div {
+.navlist > a {
     cursor: pointer;
     position: relative;
     transition: opacity 0.2s ease;
+    text-decoration: none;
+    color: inherit;
 }
-.navlist > div::after {
+.navlist > a::after {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -53,10 +67,10 @@ body {
     background: currentColor;
     transition: width 0.25s ease;
 }
-.navlist > div:hover {
+.navlist > a:hover {
     opacity: 0.7;
 }
-.navlist > div:hover::after {
+.navlist > a:hover::after {
     width: 100%;
 }
 .btn{
@@ -71,6 +85,9 @@ body {
     border-color: var(--neutral-70);
     gap:12px;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    border-style: solid;
 }
 .btn:hover {
     border-width: 1.6px;
@@ -132,6 +149,7 @@ body {
     margin: 0px 0px 0px 72px;
     pointer-events: auto;
     cursor: pointer;
+    text-decoration: none;
 }
 .btn-hero > img {
     width: 28px;

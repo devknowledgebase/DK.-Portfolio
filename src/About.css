@@ -23,7 +23,7 @@
     width: 173px;
     height: 56px;
     background: var(--neutral-0);
-    border: 1.5px solid;
+    border: 1.5px solid #000000;
     border-radius: 100px;
     font-family: 'ClashGrotesk';
     font-weight: 600;
@@ -35,9 +35,19 @@
     margin: 40px 0px 0px 68px;
     cursor: pointer;
     transition: border-width 0.1s linear;
+    text-decoration: none;
+    color: #000000;
 }
 .about-btn:hover {
     border-width: 1.6px;
+    color: #000000;
+    text-decoration: none;
+}
+.about-btn:visited,
+.about-btn:active,
+.about-btn:focus {
+    color: #000000;
+    text-decoration: none;
 }
 
 .tool-scroll-container {

@@ -75,13 +75,15 @@ const tools = [
 
 function Casestudy({ onBack }) {
     return (
-        <div className="casestudy-container">
-            <nav className="casestudy-navbar">
-                <Logo style={{ width: 50, height: 19, cursor: "pointer" }} onClick={onBack} />
-                <button className="casestudy-back-btn" onClick={onBack}>
+        <article className="casestudy-container">
+            <nav className="casestudy-navbar" aria-label="Case study navigation">
+                <a href="/" onClick={onBack} aria-label="Back to homepage">
+                    <Logo style={{ width: 50, height: 19 }} />
+                </a>
+                <a href="/" className="casestudy-back-btn" onClick={onBack}>
                     <Arrowright style={{ transform: "rotate(180deg)", width: 20, height: 20 }} />
                     <span>Back to Work</span>
-                </button>
+                </a>
             </nav>
 
             <header className="casestudy-header">
@@ -103,7 +105,7 @@ function Casestudy({ onBack }) {
                 </div>
             </header>
 
-            <section className="casestudy-stats">
+            <section className="casestudy-stats" aria-label="Key metrics">
                 {stats.map((stat) => (
                     <div key={stat.label} className="stat-item">
                         <span className="stat-value">{stat.value}</span>
@@ -203,13 +205,13 @@ function Casestudy({ onBack }) {
                 </section>
 
                 <div className="casestudy-footer-nav">
-                    <button className="casestudy-back-btn large" onClick={onBack}>
+                    <a href="/" className="casestudy-back-btn large" onClick={onBack}>
                         <Arrowright style={{ transform: "rotate(180deg)", width: 24, height: 24 }} />
                         <span>Back to All Works</span>
-                    </button>
+                    </a>
                 </div>
             </main>
-        </div>
+        </article>
     );
 }
 

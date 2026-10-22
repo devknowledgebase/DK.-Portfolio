@@ -6,15 +6,74 @@ import About from './About.jsx'
 import Footer from './Footer.jsx'
 import GradualBlur from './component/GradualBlur.jsx'
 import LoadingScreen from './LoadingScreen.jsx'
+import SEOHead from './components/SEOHead.jsx'
+import NotFound from './components/NotFound.jsx'
 
 const Casestudy = lazy(() => import('./Casestudy.jsx'));
 
+// ──────────────────────────────────────────────
+// JSON-LD structured data
+// ──────────────────────────────────────────────
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Dev Kumar | Portfolio",
+      "url": "https://devkumar.is-a.dev/",
+    },
+    {
+      "@type": "Person",
+      "name": "Dev Kumar",
+      "url": "https://devkumar.is-a.dev/",
+      "jobTitle": "Frontend Developer & Digital Marketing Enthusiast",
+      "sameAs": [
+        "https://www.linkedin.com/in/kumaardev/",
+        "https://github.com/devknowledgebase",
+        "https://x.com/Dev3807",
+      ],
+    },
+  ],
+};
+
+const casestudyJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Lunara — Pinterest Marketing Case Study",
+  "description":
+    "How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization.",
+  "author": {
+    "@type": "Person",
+    "name": "Dev Kumar",
+    "url": "https://devkumar.is-a.dev/",
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Dev Kumar",
+  },
+  "mainEntityOfPage": "https://devkumar.is-a.dev/casestudy",
+};
+
+// ──────────────────────────────────────────────
+// Route resolver
+// ──────────────────────────────────────────────
 function getRouteFromPath(pathname) {
   const cleanPath = pathname.replace(/\/+$/, '') || '/';
-  if (cleanPath === '/casestudy' || cleanPath === '/case-study' || cleanPath === '/lunara') {
+
+  // Redirect legacy aliases to the canonical URL
+  if (cleanPath === '/case-study' || cleanPath === '/lunara') {
+    window.history.replaceState(null, '', '/casestudy');
     return 'casestudy';
   }
-  return 'home';
+  if (cleanPath === '/casestudy') {
+    return 'casestudy';
+  }
+  if (cleanPath === '/') {
+    return 'home';
+  }
+
+  // Any unrecognised path → 404
+  return '404';
 }
 
 function App() {
@@ -72,13 +131,15 @@ function App() {
     }
   }, [route]);
 
-  const navigateToHome = () => {
+  const navigateToHome = (e) => {
+    if (e) e.preventDefault();
     window.history.pushState(null, '', '/');
     setRoute('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navigateToSection = (sectionId) => {
+  const navigateToSection = (sectionId, e) => {
+    if (e) e.preventDefault();
     if (sectionId === 'casestudy') {
       navigateToCaseStudy();
       return;
@@ -93,14 +154,16 @@ function App() {
     }, 80);
   };
 
-  const navigateToCaseStudy = () => {
+  const navigateToCaseStudy = (e) => {
+    if (e) e.preventDefault();
     savedScrollY.current = window.scrollY;
     window.history.pushState(null, '', '/casestudy');
     window.scrollTo(0, 0);
     setRoute('casestudy');
   };
 
-  const handleBackFromCaseStudy = () => {
+  const handleBackFromCaseStudy = (e) => {
+    if (e) e.preventDefault();
     window.history.pushState(null, '', '/');
     setRoute('home');
     setTimeout(() => {
@@ -108,17 +171,35 @@ function App() {
     }, 50);
   };
 
+  // 404 route
+  if (route === '404') {
+    return <NotFound />;
+  }
+
   return (
     <>
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       {route === 'casestudy' ? (
         <main>
+          <SEOHead
+            title="Lunara — Pinterest Marketing Case Study | Dev Kumar"
+            description="How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization."
+            path="/casestudy"
+            ogType="article"
+            jsonLd={casestudyJsonLd}
+          />
           <Suspense fallback={null}>
             <Casestudy onBack={handleBackFromCaseStudy} />
           </Suspense>
         </main>
       ) : (
         <main id="main-content">
+          <SEOHead
+            title="Dev Kumar | Frontend Developer & Digital Marketing Enthusiast"
+            description="Frontend Developer crafting modern UI/UX and driving growth with digital marketing, social media marketing, and responsive web design."
+            path="/"
+            jsonLd={homeJsonLd}
+          />
           <Hero />
           <Work onOpenCaseStudy={navigateToCaseStudy} />
           <About />

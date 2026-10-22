@@ -1,8 +1,9 @@
 {
+  "redirects": [
+    { "source": "/case-study", "destination": "/casestudy", "permanent": true },
+    { "source": "/lunara", "destination": "/casestudy", "permanent": true }
+  ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
+    { "source": "/(.*)", "destination": "/" }
   ]
 }

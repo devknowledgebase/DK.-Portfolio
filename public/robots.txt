@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://devkumar.is-a.dev/sitemap.xml

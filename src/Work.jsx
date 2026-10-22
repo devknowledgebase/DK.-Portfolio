@@ -50,6 +50,8 @@ const workData = [
         className: 'work-card',
         alt: 'Lunara Pinterest marketing preview',
         badge: "Marketing",
+        link: "/casestudy",
+        isInternal: true,
     },
     {
         id: 4,
@@ -66,8 +68,8 @@ const workData = [
 
 function Work({ onOpenCaseStudy }) {
     return (
-        <div className='work' id="Work">
-            <div className='featured'>Featured Works</div>
+        <section className='work' id="Work">
+            <h2 className='featured'>Featured Works</h2>
             <div className='work-cards-container'>
                 {workData.map((item) => (
                     <div key={item.id} className={item.className}>
@@ -94,22 +96,40 @@ function Work({ onOpenCaseStudy }) {
                                     <div className='card-description'>{item.description}</div>
                                 )}
                             </div>
-                            <Arrow_up_right
-                                className="work-arrow"
-                                style={{ zIndex: '10', position: 'relative', cursor: 'pointer' }}
-                                onClick={() => {
-                                    if (item.id === 3 && onOpenCaseStudy) {
-                                        onOpenCaseStudy();
-                                    } else if (item.link) {
-                                        window.open(item.link, '_blank', 'noopener,noreferrer');
-                                    }
-                                }}
-                            />
+                            {item.isInternal ? (
+                                <a
+                                    href={item.link}
+                                    className="work-arrow-link"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (onOpenCaseStudy) onOpenCaseStudy();
+                                    }}
+                                    aria-label={`View ${item.title} case study`}
+                                >
+                                    <Arrow_up_right
+                                        className="work-arrow"
+                                        style={{ zIndex: '10', position: 'relative' }}
+                                    />
+                                </a>
+                            ) : (
+                                <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="work-arrow-link"
+                                    aria-label={`Visit ${item.title}`}
+                                >
+                                    <Arrow_up_right
+                                        className="work-arrow"
+                                        style={{ zIndex: '10', position: 'relative' }}
+                                    />
+                                </a>
+                            )}
                         </div>
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     )
 }
 

@@ -96,6 +96,15 @@
     flex-shrink: 0;
 }
 
+.work-arrow-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
 /* ── Tablet (≤ 1100px) ───────────────────────────────── */
 @media (max-width: 1100px) {
     .work-cards-container {

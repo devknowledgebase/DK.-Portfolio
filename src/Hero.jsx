@@ -31,18 +31,20 @@ function Hero() {
   return (
     <>
       <div className='hero-container' id="Home">
-        <div className='navbar'>
-          <Logo style={{ width: 50, height: 19 }} onClick={() => scrollToSection('Home')} />
+        <nav className='navbar' aria-label="Main navigation">
+          <a href="/" className="logo-link" onClick={(e) => { e.preventDefault(); scrollToSection('Home'); }} aria-label="Home">
+            <Logo style={{ width: 50, height: 19, color: '#000000' }} />
+          </a>
           <div className="navlist">
-            <div onClick={() => scrollToSection('Home')}>Home</div>
-            <div onClick={() => scrollToSection('Work')}>Work</div>
-            <div onClick={() => scrollToSection('About')}>About</div>
+            <a href="/#Home" onClick={(e) => { e.preventDefault(); scrollToSection('Home'); }}>Home</a>
+            <a href="/#Work" onClick={(e) => { e.preventDefault(); scrollToSection('Work'); }}>Work</a>
+            <a href="/#About" onClick={(e) => { e.preventDefault(); scrollToSection('About'); }}>About</a>
           </div>
-          <button className='btn' onClick={() => scrollToSection('Footer')}>
-            <div>Let’s Talk</div>
+          <a href="/#Footer" className='btn' onClick={(e) => { e.preventDefault(); scrollToSection('Footer'); }}>
+            <div>Let's Talk</div>
             <Arrowright style={{ color: "var(--neutral-100)", width: 20, height: 20 }} />
-          </button>
-        </div>
+          </a>
+        </nav>
         <div style={{
           position: 'absolute',
           top: 0,
@@ -68,12 +70,12 @@ function Hero() {
         </div>
         <div className='hero-content'>
           <div className='hero-text'>
-            <p>Hello! I’m Dev.</p>
+            <p>Hello! I'm Dev.</p>
             <h1>
               Turning Ideas into Interactive <span style={{ color: "var(--neutral-40)" }}>Digital Products</span>
             </h1>
           </div>
-          <button className='btn-hero' onClick={() => scrollToSection('About')}>About Me <Arrowright style={{ color: "var(--neutral-0)", width: 28, height: 28 }} /></button>
+          <a href="/#About" className='btn-hero' onClick={(e) => { e.preventDefault(); scrollToSection('About'); }}>About Me <Arrowright style={{ color: "var(--neutral-0)", width: 28, height: 28 }} /></a>
         </div>
       </div>
     </>
