@@ -56,6 +56,13 @@
  --card-border-radius: 40px;
  --casestudy-tool-width: 70px;
  --casestudy-tool-height: var(--casestudy-tool-width);
+ --btn: 70px;
+ --gap: 10px;
+ --btn-bg: #ffffff;
+ --btn-color: #000000;
+ --n: calc(var(--btn) + var(--gap) * 2);
+ --f: 20px;
+ --r: 40px;
 }
 
 /* Tablet */
@@ -70,6 +77,10 @@
     --card-height: 480px;
     --card-border-radius: 28px;
     --casestudy-tool-width: 54px;
+    --btn: 50px;
+    --gap: 8px;
+    --f: 16px;
+    --r: 20px;
   }
 }
 
@@ -85,6 +96,10 @@
     --card-height: 320px;
     --card-border-radius: 20px;
     --casestudy-tool-width: 42px;
+    --btn: 36px;
+    --gap: 6px;
+    --f: 12px;
+    --r: 14px;
   }
 }
 

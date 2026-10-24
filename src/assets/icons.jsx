@@ -289,9 +289,9 @@ export const Check = ({style}) =>(
 )
 export const Arrow_up_right = ({style, onClick, className}) =>(
     <svg style={style} onClick={onClick} className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="100" height="100" rx="50" fill="white"/>
-<path d="M35 65L65 35" stroke="#030712" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M40.625 35H65V59.375" stroke="#030712" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round"/>
+<rect width="100" height="100" rx="50" fill="currentColor"/>
+<path d="M35 65L65 35" stroke="white" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M40.625 35H65V59.375" stroke="white" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
 
 )

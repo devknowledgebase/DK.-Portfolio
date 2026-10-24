@@ -29,6 +29,7 @@ const workData = [
         badge: "Website",
         link: "https://ai-searcho.vercel.app/",
         isLcp: true,
+        tone: "#000000",
     },
     {
         id: 2,
@@ -40,6 +41,7 @@ const workData = [
         alt: 'Genova Labs website design preview',
         badge: "Website",
         link: "https://devknowledgebase.github.io/Genova-Labs/",
+        tone: "#79eb00ff",
     },
     {
         id: 3,
@@ -52,6 +54,7 @@ const workData = [
         badge: "Marketing",
         link: "/casestudy",
         isInternal: true,
+        tone: "#E661FF",
     },
     {
         id: 4,
@@ -63,6 +66,7 @@ const workData = [
         alt: 'Washit UI/UX case study preview',
         badge: "Case Study",
         link: "https://www.behance.net/gallery/253368559/Washit-UiUx-Case-Study",
+        tone: "#0066ff",
     }
 ];
 
@@ -72,60 +76,52 @@ function Work({ onOpenCaseStudy }) {
             <h2 className='featured'>Featured Works</h2>
             <div className='work-cards-container'>
                 {workData.map((item) => (
-                    <div key={item.id} className={item.className}>
-                        <img
-                            src={item.image}
-                            srcSet={item.srcSet}
-                            sizes="(max-width: 640px) 100vw, (max-width: 1100px) 100vw, 740px"
-                            alt={item.alt}
-                            width="740"
-                            height="600"
-                            loading={item.isLcp ? undefined : "lazy"}
-                            decoding="async"
-                            fetchPriority={item.isLcp ? "high" : "low"}
-                        />
+                    <div
+                        key={item.id}
+                        className={item.className}
+                        style={item.tone ? { '--btn-color': item.tone } : undefined}
+                    >
+                        {/* Masked surface: holds everything that gets clipped by the notch */}
+                        <div className='card-surface'>
+                            <img
+                                src={item.image}
+                                srcSet={item.srcSet}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1100px) 100vw, 740px"
+                                alt={item.alt}
+                                width="740"
+                                height="600"
+                                loading={item.isLcp ? undefined : "lazy"}
+                                decoding="async"
+                                fetchPriority={item.isLcp ? "high" : "low"}
+                            />
 
-                        {item.badge && (
-                            <span className='card-badge'>{item.badge}</span>
-                        )}
+                            {item.badge && (
+                                <span className='card-badge'>{item.badge}</span>
+                            )}
 
-                        <div className='card-text-btn'>
                             <div className='card-text'>
                                 <p>{item.title}</p>
                                 {item.description && (
                                     <div className='card-description'>{item.description}</div>
                                 )}
                             </div>
-                            {item.isInternal ? (
-                                <a
-                                    href={item.link}
-                                    className="work-arrow-link"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        if (onOpenCaseStudy) onOpenCaseStudy();
-                                    }}
-                                    aria-label={`View ${item.title} case study`}
-                                >
-                                    <Arrow_up_right
-                                        className="work-arrow"
-                                        style={{ zIndex: '10', position: 'relative' }}
-                                    />
-                                </a>
-                            ) : (
-                                <a
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="work-arrow-link"
-                                    aria-label={`Visit ${item.title}`}
-                                >
-                                    <Arrow_up_right
-                                        className="work-arrow"
-                                        style={{ zIndex: '10', position: 'relative' }}
-                                    />
-                                </a>
-                            )}
                         </div>
+
+                        {/* Arrow button sits OUTSIDE the surface so the mask doesn't clip it */}
+                        <a
+                            href={item.link}
+                            target={item.isInternal ? undefined : "_blank"}
+                            rel={item.isInternal ? undefined : "noopener noreferrer"}
+                            className="work-arrow-link"
+                            style={item.tone ? { color: item.tone } : undefined}
+                            onClick={item.isInternal ? (e) => {
+                                e.preventDefault();
+                                if (onOpenCaseStudy) onOpenCaseStudy();
+                            } : undefined}
+                            aria-label={item.isInternal ? `View ${item.title} case study` : `Visit ${item.title}`}
+                        >
+                            <Arrow_up_right className="work-arrow" />
+                        </a>
                     </div>
                 ))}
             </div>
