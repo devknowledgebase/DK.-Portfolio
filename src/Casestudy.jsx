@@ -114,7 +114,7 @@ function Casestudy({ onBack }) {
                 ))}
             </section>
 
-            <main className="casestudy-content">
+            <div className="casestudy-content">
                 <section className="casestudy-intro">
                     <p>Lunara is a Pinterest brand focused on inspiring healthier habits, mindfulness, productivity, and self-care. I built and managed the account from the ground up, creating an organic content strategy that combined Pinterest SEO, engaging visual design, and data-driven optimization to increase reach and audience engagement without paid advertising.
                     </p>
@@ -210,7 +210,7 @@ function Casestudy({ onBack }) {
                         <span>Back to All Works</span>
                     </a>
                 </div>
-            </main>
+            </div>
         </article>
     );
 }

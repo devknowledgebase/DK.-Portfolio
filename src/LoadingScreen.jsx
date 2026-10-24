@@ -193,7 +193,7 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
   if (isExited) return null;
 
   return (
-    <aside 
+    <div 
       ref={screenRef}
       className="loading-screen"
       aria-label="Loading animation: Dev Kumar"
@@ -239,6 +239,6 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
           </span>
         </h1>
       </div>
-    </aside>
+    </div>
   );
 }

@@ -1,0 +1,26 @@
+# Dev Kumar
+
+> Frontend Developer crafting modern UI/UX and driving growth with digital marketing, creative strategy, and responsive web development.
+
+Dev Kumar is a Frontend Developer and Digital Marketing specialist building high-performance, accessible, and interactive web applications using React, JavaScript, modern CSS, Figma, and data-driven SEO strategies.
+
+## Pages
+
+- [Home](https://devkumar.is-a.dev/): Main portfolio showcasing featured projects, interactive creative work, technical skills, and contact form.
+- [About](https://devkumar.is-a.dev/#About): Background, core competencies in development and digital marketing, and full tech stack.
+- [Featured Work](https://devkumar.is-a.dev/#Work): Selected client and concept projects across web design, frontend development, and UX case studies.
+- [Lunara Case Study](https://devkumar.is-a.dev/casestudy): Detailed Pinterest marketing case study detailing organic growth to 164K+ impressions and 113K audience.
+- [Contact](https://devkumar.is-a.dev/#Footer): Get in touch for freelance projects, frontend engineering roles, or marketing collaborations.
+- [Resume](https://devkumar.is-a.dev/Resume_.pdf): Professional CV detailing technical skills, achievements, and work experience.
+
+## Projects
+
+- [Ai Searcho](https://ai-searcho.vercel.app/): Modern web design and user interface for an AI-powered SEO analysis tool.
+- [Genova Labs](https://devknowledgebase.github.io/Genova-Labs/): Futuristic landing page and interactive website for a biotechnology startup.
+- [Washit](https://www.behance.net/gallery/253368559/Washit-UiUx-Case-Study): End-to-end UI/UX mobile application design case study for an on-demand laundry service.
+
+## Social Links
+
+- [LinkedIn](https://www.linkedin.com/in/kumaardev/): Connect professionally and view work history.
+- [GitHub](https://github.com/devknowledgebase): Explore source code repositories and frontend projects.
+- [X / Twitter](https://x.com/Dev3807): Updates on web development, design experiments, and digital marketing.
