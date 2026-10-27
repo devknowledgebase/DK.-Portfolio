@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import './App.css'
 import Hero from './Hero.jsx'
-import GradualBlur from './component/GradualBlur.jsx'
 import LoadingScreen from './LoadingScreen.jsx'
 import SEOHead from './components/SEOHead.jsx'
 import NotFound from './components/NotFound.jsx'
 
-// Code-split below-the-fold sections: none of these are needed for first paint
+// Code-split below-the-fold sections & heavy components: none of these are needed for first paint / LCP
 const Work = lazy(() => import('./Work.jsx'));
 const About = lazy(() => import('./About.jsx'));
 const Footer = lazy(() => import('./Footer.jsx'));
 const Casestudy = lazy(() => import('./Casestudy.jsx'));
+const GradualBlur = lazy(() => import('./component/GradualBlur.jsx'));
 
 // ──────────────────────────────────────────────
 // JSON-LD structured data
@@ -98,6 +98,36 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const savedScrollY = useRef(0);
 
+  // Prerender or bot environment needs all content immediately
+  const isPrerenderEnv = typeof window === 'undefined' || /bot|crawler|spider|crawling|headless|prerender/i.test(navigator.userAgent || '');
+  const [loadBelowTheFold, setLoadBelowTheFold] = useState(() => isPrerenderEnv || window.location.hash.length > 1);
+
+  // Defer below-the-fold component loading until first scroll, user gesture, or idle
+  useEffect(() => {
+    if (loadBelowTheFold) return;
+
+    const enable = () => setLoadBelowTheFold(true);
+    window.addEventListener('scroll', enable, { passive: true, once: true });
+    window.addEventListener('touchstart', enable, { passive: true, once: true });
+    window.addEventListener('pointerdown', enable, { passive: true, once: true });
+
+    let idleId = null;
+    let timerId = null;
+    if ('requestIdleCallback' in window) {
+      idleId = requestIdleCallback(enable, { timeout: 2000 });
+    } else {
+      timerId = setTimeout(enable, 1500);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', enable);
+      window.removeEventListener('touchstart', enable);
+      window.removeEventListener('pointerdown', enable);
+      if (idleId && 'cancelIdleCallback' in window) cancelIdleCallback(idleId);
+      if (timerId) clearTimeout(timerId);
+    };
+  }, [loadBelowTheFold]);
+
   // Sync with browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
@@ -111,7 +141,7 @@ function App() {
 
   // LocomotiveScroll for home page - deferred to idle and skipped on mobile
   useEffect(() => {
-    if (route !== 'home') return;
+    if (route !== 'home' || !loadBelowTheFold) return;
     let ls = null;
     let cancelled = false;
 
@@ -146,7 +176,7 @@ function App() {
         if (ls) ls.destroy();
       };
     }
-  }, [route]);
+  }, [route, loadBelowTheFold]);
 
   const navigateToHome = (e) => {
     if (e) e.preventDefault();
@@ -157,6 +187,7 @@ function App() {
 
   const navigateToSection = (sectionId, e) => {
     if (e) e.preventDefault();
+    setLoadBelowTheFold(true);
     if (sectionId === 'casestudy') {
       navigateToCaseStudy();
       return;
@@ -219,31 +250,40 @@ function App() {
           />
           {/* Hero & nav stay in the initial bundle — critical for LCP */}
           <Hero />
-          {/* Below-the-fold sections are code-split; Suspense with null fallback avoids layout shift */}
-          <Suspense fallback={null}>
-            <Work onOpenCaseStudy={navigateToCaseStudy} />
-          </Suspense>
-          <Suspense fallback={null}>
-            <About />
-          </Suspense>
-          <Suspense fallback={null}>
-            <Footer />
-          </Suspense>
+          {/* Below-the-fold sections are code-split and loaded when visible/idle/interaction */}
+          {loadBelowTheFold && (
+            <>
+              <Suspense fallback={null}>
+                <Work onOpenCaseStudy={navigateToCaseStudy} />
+              </Suspense>
+              <Suspense fallback={null}>
+                <About />
+              </Suspense>
+              <Suspense fallback={null}>
+                <Footer />
+              </Suspense>
+            </>
+          )}
         </main>
       )}
 
-      <GradualBlur
-        target="page"
-        position="bottom"
-        height="140px"
-        strength={2}
-        divCount={5}
-        curve="bezier"
-        exponential
-        opacity={1}
-      />
+      {loadBelowTheFold && (
+        <Suspense fallback={null}>
+          <GradualBlur
+            target="page"
+            position="bottom"
+            height="140px"
+            strength={2}
+            divCount={5}
+            curve="bezier"
+            exponential
+            opacity={1}
+          />
+        </Suspense>
+      )}
     </>
   )
 }
 
 export default App
+

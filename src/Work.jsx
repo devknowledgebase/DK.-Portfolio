@@ -85,6 +85,11 @@ function Work({ onOpenCaseStudy }) {
         let target = 0        // scroll progress 0..1 (raw)
         let current = 0       // smoothed progress
         let raf = 0
+        let cachedVw = window.innerWidth
+        let cachedVh = window.innerHeight
+        let cachedOffsets = []
+        let cachedWidths = []
+        let cachedTrackBaseLeft = 0
 
         const measure = () => {
             if (reduced.matches) {
@@ -93,11 +98,22 @@ function Work({ onOpenCaseStudy }) {
                 cards.forEach((c) => { c.style.removeProperty('--shift'); c.style.removeProperty('--lift') })
                 return
             }
-            distance = Math.max(0, track.scrollWidth - window.innerWidth)
-            // vertical scroll length = one viewport (the pinned frame) + horizontal distance
-            section.style.height = `${window.innerHeight + distance}px`
-            readScroll()
+
+            // Phase 1: BATCH ALL DOM READS UP FRONT (Zero writes before reads)
+            cachedVw = window.innerWidth
+            cachedVh = window.innerHeight
+            const scrollW = track.scrollWidth
+            const sectionTop = section.getBoundingClientRect().top
+            cachedOffsets = cards.map((c) => c.offsetLeft)
+            cachedWidths = cards.map((c) => c.offsetWidth)
+            cachedTrackBaseLeft = track.getBoundingClientRect().left - (-current * distance)
+
+            distance = Math.max(0, scrollW - cachedVw)
+            target = distance > 0 ? Math.min(1, Math.max(0, -sectionTop / distance)) : 0
             current = target
+
+            // Phase 2: BATCH DOM WRITES
+            section.style.height = `${cachedVh + distance}px`
             render()
         }
 
@@ -110,21 +126,22 @@ function Work({ onOpenCaseStudy }) {
             const x = -current * distance
             track.style.transform = `translate3d(${x}px,0,0)`
             if (bar) bar.style.transform = `scaleX(${current})`
-            // light parallax on each image, based on the card's distance from viewport centre
-            const vw = window.innerWidth
-            // Batch ALL reads first to avoid forced reflow (layout thrashing)
-            const rects = cards.map((card) => card.getBoundingClientRect())
-            const offsets = cards.map((card) => card.offsetLeft)
-            // Then batch all writes
+
+            const vw = cachedVw || window.innerWidth
+            const vh = cachedVh || window.innerHeight
+
+            // ZERO DOM READS: Pure arithmetic from cached offsets and distance to eliminate layout thrashing
             cards.forEach((card, i) => {
-                const r = rects[i]
-                const d = (r.left + r.width / 2 - vw / 2) / vw // -1..1 roughly
-                // cards rise from the bottom as they travel in from the right (first card starts at rest)
+                const cardLeft = cachedTrackBaseLeft + x + (cachedOffsets[i] || 0)
+                const cardW = cachedWidths[i] || 0
+                const d = (cardLeft + cardW / 2 - vw / 2) / vw // -1..1 roughly
+
                 let lift = 0
                 if (i > 0) {
-                    const rest = Math.max(offsets[i] - distance, vw * 0.15)
-                    const t = Math.min(1, Math.max(0, (r.left - rest) / (vw - rest)))
-                    lift = t * window.innerHeight * 0.9
+                    const offset = cachedOffsets[i] || 0
+                    const rest = Math.max(offset - distance, vw * 0.15)
+                    const t = Math.min(1, Math.max(0, (cardLeft - rest) / (vw - rest)))
+                    lift = t * vh * 0.9
                 }
                 card.style.setProperty('--shift', `${(-d * 40).toFixed(1)}px`)
                 card.style.setProperty('--lift', `${lift.toFixed(1)}px`)
