@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "headers": [
         {
           "key": "Strict-Transport-Security",
@@ -60,6 +60,6 @@
     { "source": "/lunara", "destination": "/casestudy", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/((?!.*\\..*)(.*)|)", "destination": "/" }
+    { "source": "/((?!.*\\..*).*)", "destination": "/" }
   ]
 }
