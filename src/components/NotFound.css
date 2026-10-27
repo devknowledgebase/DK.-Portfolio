@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100svh;
   text-align: center;
   padding: 2rem;
   gap: 1rem;

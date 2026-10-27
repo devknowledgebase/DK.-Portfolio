@@ -84,11 +84,12 @@ function Footer() {
                     <div className="social-icon-wraper">
                         <div className='social-icon-wraper-content'>
                             <Email style={{ width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)' }} />
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            <div className="social-text">
                                 <span style={{ fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB' }}>
                                     Email
                                 </span>
                                 <span
+                                    className="social-value"
                                     onClick={() => copyToClipboard('kumard.07.dev@gmail.com')}
                                     title="Click to copy"
                                     style={{
@@ -106,11 +107,12 @@ function Footer() {
                         </div>
                         <div className='social-icon-wraper-content'>
                             <Phone style={{ width: 'var(--primary-icon-size)', height: 'var(--primary-icon-size)' }} />
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            <div className="social-text">
                                 <span style={{ fontWeight: '400', fontSize: 'var(--primary-font-size)', color: '#E5E7EB' }}>
                                     Phone
                                 </span>
                                 <span
+                                    className="social-value"
                                     onClick={() => copyPhoneToClipboard('+91-8287215900')}
                                     title="Click to copy"
                                     style={{

@@ -28,9 +28,16 @@
     flex-direction: row;
     gap: 200px;
     margin: 90px auto;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 .footer-socials svg {
     flex-shrink: 0;
+}
+.social-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 .contact-section {
     width: 100%;
@@ -198,8 +205,31 @@
     align-self: center;
 }
 
+/* ── Small laptops (1025px – 1280px): two columns, but smaller type so nothing overlaps ── */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .footer {
+        --primary-font-size: 26px;
+        --secondary-font-size: 28px;
+        --primary-icon-size: 52px;
+        --secondary-icon-size: 52px;
+    }
+    .footer-socials {
+        gap: clamp(40px, 6vw, 96px);
+        padding: 0 clamp(24px, 4vw, 56px);
+    }
+    .social-icon-wraper {
+        max-width: none;
+    }
+}
+
 /* ── Tablet (≤ 1024px) ────────────────────────────────── */
 @media (max-width: 1024px) {
+    .social-text {
+        min-width: 0;
+    }
+    .social-value {
+        overflow-wrap: anywhere;   /* a long email wraps instead of overflowing on the narrowest phones */
+    }
     .contact-text-head {
         font-size: clamp(48px, 8vw, 100px);
         margin-top: 48px;
@@ -226,6 +256,7 @@
 /* ── Mobile (≤ 640px) ─────────────────────────────────── */
 @media (max-width: 640px) {
     .footer {
+        min-height: 0;
         border-radius: 24px 24px 0 0;
     }
     .contact-text-head {

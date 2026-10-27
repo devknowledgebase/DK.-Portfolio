@@ -144,9 +144,22 @@ function Work({ onOpenCaseStudy }) {
             if (!raf) raf = requestAnimationFrame(tick)
         }
 
+        // On phones the URL bar sliding in/out fires `resize` with a small height-only change;
+        // re-measuring then would make the pinned section jump mid-scroll, so skip those.
+        let lastW = window.innerWidth
+        let lastH = window.innerHeight
+        const onResize = () => {
+            const w = window.innerWidth
+            const h = window.innerHeight
+            if (w === lastW && Math.abs(h - lastH) < 150) return
+            lastW = w
+            lastH = h
+            measure()
+        }
+
         measure()
         window.addEventListener('scroll', onScroll, { passive: true })
-        window.addEventListener('resize', measure)
+        window.addEventListener('resize', onResize)
         reduced.addEventListener('change', measure)
         const ro = new ResizeObserver(measure)
         ro.observe(track)
@@ -154,7 +167,7 @@ function Work({ onOpenCaseStudy }) {
         return () => {
             cancelAnimationFrame(raf)
             window.removeEventListener('scroll', onScroll)
-            window.removeEventListener('resize', measure)
+            window.removeEventListener('resize', onResize)
             reduced.removeEventListener('change', measure)
             ro.disconnect()
         }

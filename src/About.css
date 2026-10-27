@@ -1,4 +1,5 @@
 .about {
+    --about-pad: 72px;   /* left/right gutter, shrinks at the breakpoints below */
     width: 100%;
     height: fit-content;
     background: var(--neutral-black);
@@ -7,11 +8,11 @@
 }
 .about-text-1 {
     font-family: 'ClashGrotesk';
-    font-size: 72px;
+    font-size: clamp(44px, 5.5vw, 72px);
     color: var(--neutral-0);
     max-width: 100%;
     font-weight: 600;
-    padding: 0px 72px;
+    padding: 0 var(--about-pad);
 }
 .about-text-2 {
     font-family: 'ClashGrotesk';
@@ -19,7 +20,7 @@
     color: var(--neutral-0);
     font-weight: 400;
     max-width: 781px;
-    margin: 20px 0px 0px 72px;
+    margin: 20px var(--about-pad) 0 var(--about-pad);
     text-align: justify;
 }
 .about-btn {
@@ -35,7 +36,7 @@
     align-items: center;    
     justify-content: center;
     gap: 12px;
-    margin: 40px 0px 0px 68px;
+    margin: 40px 0px 0px calc(var(--about-pad) - 4px);
     cursor: pointer;
     transition: border-width 0.1s linear;
     text-decoration: none;
@@ -150,6 +151,7 @@
 /* ── Tablet (≤ 1024px) ───────────────────────────────── */
 @media (max-width: 1024px) {
     .about {
+        --about-pad: 40px;
         height: auto;
         padding-bottom: 40px;
     }
@@ -167,17 +169,14 @@
     }
     .about-text-1 {
         font-size: clamp(36px, 6vw, 72px);
-        margin: 60px 0 0 40px;
-        max-width: 90%;
+        margin-top: 60px;
     }
     .about-text-2 {
         font-size: 16px;
         margin-top: 16px;
-        padding-right: 10px  ;
-        max-width: 90%;
     }
     .about-btn {
-        margin: 32px 0 0 36px;
+        margin-top: 32px;
     }
     .tool-scroll-container {
         margin-top: 56px;
@@ -190,6 +189,9 @@
 
 /* ── Mobile (≤ 640px) ────────────────────────────────── */
 @media (max-width: 640px) {
+    .about {
+        --about-pad: 20px;
+    }
     .figure-wrap {
         margin: 60px auto 0 auto;
     }
@@ -199,16 +201,15 @@
     }
     .about-text-1 {
         font-size: clamp(28px, 8vw, 48px);
-        margin: 40px 0 0 20px;
-        max-width: 95%;
+        margin-top: 40px;
     }
     .about-text-2 {
         font-size: 14px;
-        margin: 14px 0 0 20px;
-        max-width: 95%;
+        margin-top: 14px;
+        text-align: left;   /* justified text makes ugly gaps on narrow columns */
     }
     .about-btn {
-        margin: 24px 0 0 16px;
+        margin-top: 24px;
         width: 150px;
         height: 48px;
         font-size: 14px;

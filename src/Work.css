@@ -11,6 +11,7 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    height: 100svh;   /* matches window.innerHeight on phones, where the URL bar changes 100vh */
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -293,7 +294,6 @@
 
 /* ── Tablet (≤ 1100px) ───────────────────────────────── */
 @media (max-width: 1100px) {
-    .work-card { width: min(var(--card-width), 82vw); }
     .featured { font-size: 44px; margin-right: 48px; }
     .work-track { gap: 32px; padding: 0 32px 0 24px; }
     .work-card::after { right: -16px; }
@@ -304,7 +304,6 @@
 
 /* ── Mobile (≤ 640px) ────────────────────────────────── */
 @media (max-width: 640px) {
-    .work-card { width: 86vw; }
     .featured { font-size: 32px; margin-right: 32px; }
     .work-track { gap: 20px; padding: 0 20px 0 16px; }
     .work-card::after { right: -10px; }

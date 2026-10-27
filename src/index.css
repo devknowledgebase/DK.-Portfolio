@@ -78,7 +78,7 @@
     --secondary-icon-size: 48px;
     --primary-font-size: 24px;
     --secondary-font-size: 26px;
-    --card-width: 100%;
+    --card-width: min(82vw, 740px);
     --card-height: 480px;
     --card-border-radius: 28px;
     --casestudy-tool-width: 54px;
@@ -97,7 +97,7 @@
     --secondary-icon-size: 36px;
     --primary-font-size: 18px;
     --secondary-font-size: 20px;
-    --card-width: 100%;
+    --card-width: 86vw;
     --card-height: 320px;
     --card-border-radius: 20px;
     --casestudy-tool-width: 42px;
@@ -108,10 +108,22 @@
   }
 }
 
+/* Short landscape screens (phones on their side): keep the work cards inside the viewport */
+@media (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --card-height: 68svh;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 a {

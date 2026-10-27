@@ -16,6 +16,7 @@ body {
     z-index: 1101;
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
     background: #000;
     overflow: clip;
 }
@@ -34,6 +35,10 @@ body {
 .hero-text {
     color: var(--neutral-0);
     font-size: var(--tertiary-font-size);
+}
+/* h1 used to inherit 2em (= 40px); keep that on wide screens but let it shrink fluidly */
+.hero-text h1 {
+    font-size: clamp(1.75rem, 3.125vw, 2.5rem);
 }
 .btn-hero {
     background:var(--ember);
@@ -129,10 +134,42 @@ body {
     font-size: 16px;
     font-weight: 600;
 }
+/* Hamburger toggle: only shown on small screens (see ≤ 640px block) */
+.nav-toggle {
+    display: none;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--neutral-0);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle-bar {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav-toggle:focus-visible { outline: 2px solid var(--neutral-0); outline-offset: 3px; }
 .hero-figure {
   position: absolute;
   left: 50%; bottom: 0;
-  height: min(590px); width: auto;
+  height: min(590px, 82svh); width: auto;
   transform: translateX(-50%);
   z-index: 2;
   user-select: none; -webkit-user-drag: none;
@@ -160,13 +197,48 @@ body {
   @keyframes hero-rise { from { filter: brightness(0); } to { filter: brightness(1); } }
   @keyframes hero-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 }
-@media (max-width: 900px) {
-  .hero-status { font-size: .78rem; }
-  .hero-right { display: none; }
-  .hero-left { position: relative; z-index: 3; left: auto; bottom: auto; max-width: 34ch; padding: 8px 20px 0; }
-  .hero-figure { height: 58svh; }
-  .hero-loop { top: 62svh; width: 1000px; }
-  .hero-glow { left: 0; right: 0; height: 34%; }
+
+/* ── Small laptops (1025px – 1280px) ─────────────────────────
+   Keep the desktop composition, but stop the text column running under the centred figure. */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .hero-content {
+    width: calc(50% - 210px);
+    padding: 0 0 56px clamp(32px, 4.5vw, 72px);
+  }
+}
+
+/* ── Tablet & phone (≤ 1024px): stacked hero ─────────────────
+   Text sits at the top, the figure is anchored to the bottom with the marquee behind it.
+   --fig-h drives the figure, the marquee position, the glow and the space reserved for them. */
+@media (max-width: 1024px) {
+  .hero-container {
+    --fig-h: min(46svh, 480px);
+    display: flex;
+    flex-direction: column;
+    padding: clamp(88px, 14svh, 130px) 0 var(--fig-h);
+  }
+  .hero-content {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-width: 640px;
+    padding: 0 clamp(20px, 6vw, 56px);
+    gap: 20px;
+  }
+  .hero-text h1 {
+    font-size: clamp(1.75rem, 7vw, 3rem);
+    line-height: 1.1;
+    margin-top: 6px;
+  }
+  .hero-figure { height: var(--fig-h); }
+  .hero-loop {
+    top: auto;
+    bottom: calc(var(--fig-h) * 0.6);
+    transform: translate(-50%, 50%);
+    width: max(100%, 900px);
+  }
+  .hero-glow { left: 0; right: 0; height: calc(var(--fig-h) * 0.9); }
 }
 /* ── Tablet (≤ 1024px) ───────────────────────────────────── */
 @media (max-width: 1024px) {
@@ -184,21 +256,86 @@ body {
 @media (max-width: 640px) {
     .navbar {
         padding: 10px 20px;
-        gap: 0;
+        gap: 10px;
         justify-content: space-between;
-    }
-    .navlist {
-        display: none;   /* hide nav links; hamburger can be added later */
-    }
-    .hero-container {
-        min-height: unset;   /* let content decide height */
     }
     .btn {
         width: 120px;
         height: 40px;
-        font-size: 14px;
+        margin-left: auto;   /* push "Let's Talk" + hamburger to the right */
     }
     .btn > div {
         font-size: 14px;
     }
+    .nav-toggle {
+        display: inline-flex;
+    }
+    /* Links collapse into a dropdown panel under the bar, opened by the hamburger */
+    .navlist {
+        display: none;
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 20px;
+        right: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
+        padding: 8px;
+        border-radius: 24px;
+        font-size: 20px;
+        background: rgba(12, 12, 12, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+    .navlist.is-open {
+        display: flex;
+    }
+    .navlist > a {
+        padding: 14px 18px;
+        border-radius: 16px;
+    }
+    .navlist > a::after {
+        display: none;
+    }
+    .navlist > a:hover,
+    .navlist > a:active {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* ── Short landscape screens (phones turned sideways) ────────
+   Not enough height to stack: text on the left, figure on the right. */
+@media (max-width: 1024px) and (max-height: 560px) and (orientation: landscape) {
+    .hero-container {
+        --fig-h: 82svh;
+        display: block;
+        padding: 0;
+    }
+    .hero-content {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 54%;
+        max-width: none;
+        padding: 0 clamp(20px, 5vw, 48px) 20px;
+        gap: 12px;
+    }
+    .hero-text h1 {
+        font-size: clamp(1.1rem, 3.4vw, 1.75rem);
+        margin-top: 2px;
+    }
+    .hero-figure {
+        left: auto;
+        right: clamp(16px, 6vw, 80px);
+        transform: none;
+    }
+    .hero-loop {
+        top: 40%;
+        bottom: auto;
+        transform: translate(-50%, -50%);
+    }
+    /* glow follows the figure so the (orange) heading isn't sitting on its bright centre */
+    .hero-glow { left: 38%; right: 0; height: 46%; }
 }
