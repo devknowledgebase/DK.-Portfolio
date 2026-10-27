@@ -2,19 +2,15 @@ import { useEffect, useRef } from 'react'
 import './Work.css'
 import card1_493 from "./assets/card-1-493.webp"
 import card1_740 from "./assets/card-1-740.webp"
-import card1_986 from "./assets/card-1-986.webp"
 
 import card2_493 from "./assets/card-2-493.webp"
 import card2_740 from "./assets/card-2-740.webp"
-import card2_986 from "./assets/card-2-986.webp"
 
 import card3_493 from "./assets/card-3-493.webp"
 import card3_740 from "./assets/card-3-740.webp"
-import card3_986 from "./assets/card-3-986.webp"
 
 import card4_493 from "./assets/card-4-493.webp"
 import card4_740 from "./assets/card-4-740.webp"
-import card4_986 from "./assets/card-4-986.webp"
 
 import { Arrow_up_right } from './assets/icons.jsx'
 
@@ -24,7 +20,7 @@ const workData = [
         title: 'Ai Searcho',
         description: 'Web design of Ai based SEO Tool',
         image: card1_740,
-        srcSet: `${card1_493} 493w, ${card1_740} 740w, ${card1_986} 986w`,
+        srcSet: `${card1_493} 493w, ${card1_740} 740w`,
         className: 'work-card',
         alt: 'Ai Searcho web design preview',
         badge: "Website",
@@ -37,7 +33,7 @@ const workData = [
         title: 'Genova Labs',
         description: 'Website design for a Biotech startup',
         image: card2_740,
-        srcSet: `${card2_493} 493w, ${card2_740} 740w, ${card2_986} 986w`,
+        srcSet: `${card2_493} 493w, ${card2_740} 740w`,
         className: 'work-card',
         alt: 'Genova Labs website design preview',
         badge: "Website",
@@ -49,7 +45,7 @@ const workData = [
         title: 'Lunara',
         description: 'Organic Pinterest Marketing',
         image: card3_740,
-        srcSet: `${card3_493} 493w, ${card3_740} 740w, ${card3_986} 986w`,
+        srcSet: `${card3_493} 493w, ${card3_740} 740w`,
         className: 'work-card',
         alt: 'Lunara Pinterest marketing preview',
         badge: "Marketing",
@@ -62,7 +58,7 @@ const workData = [
         title: 'Washit',
         description: 'Laundry service App Ui/Ux Design',
         image: card4_740,
-        srcSet: `${card4_493} 493w, ${card4_740} 740w, ${card4_986} 986w`,
+        srcSet: `${card4_493} 493w, ${card4_740} 740w`,
         className: 'work-card',
         alt: 'Washit UI/UX case study preview',
         badge: "Case Study",

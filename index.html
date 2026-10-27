@@ -10,8 +10,8 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/ClashGrotesk-Variable.woff2" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/ClashDisplay-Variable.woff2" />
 
-  <!-- Preload LCP hero image (stable URL in /public) -->
-  <link rel="preload" as="image" href="/figure.webp" fetchpriority="high" type="image/webp" />
+  <!-- Preload LCP hero image (stable URL in /public, responsive sizes matching displayed 378px) -->
+  <link rel="preload" as="image" href="/figure.webp" imagesrcset="/figure-378.webp 378w, /figure-756.webp 756w" imagesizes="(max-width: 640px) 378px, 447px" fetchpriority="high" type="image/webp" />
 
   <!-- Google Tag Manager: loaded only after first user interaction + idle (3-4s) -->
   <script src="/gtm-loader.js" defer></script>

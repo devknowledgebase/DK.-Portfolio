@@ -81,13 +81,15 @@ function Hero() {
           outline={false}
         />
       </div>
-      {/* LCP element: moved to /public for stable URL, preloaded in index.html */}
+      {/* LCP element: exported at displayed 378x473 size, preloaded in index.html with 2x retina srcset */}
       <img
         className="hero-figure"
         src="/figure.webp"
+        srcSet="/figure-378.webp 378w, /figure-756.webp 756w"
+        sizes="(max-width: 640px) 378px, 447px"
         alt="Figure in a chrome helmet and dark cloak"
-        width="447"
-        height="559"
+        width="378"
+        height="473"
         fetchpriority="high"
         decoding="async"
       />
