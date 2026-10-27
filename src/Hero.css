@@ -128,7 +128,7 @@ body {
     gap:12px;
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
+    color: var(--neutral-black);
 }
 .btn > div {
     font-size: 16px;
