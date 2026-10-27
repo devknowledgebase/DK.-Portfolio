@@ -366,9 +366,13 @@ async function prerender() {
 
       await page.evaluate(() => {
         document.querySelectorAll('.loading-screen, .gradual-blur').forEach(el => el.remove());
+        // Clean up runtime scripts/links injected by preview server or GTM during crawl
+        document.querySelectorAll('script[src*="googletagmanager.com/gtm.js"]').forEach(el => el.remove());
+        document.querySelectorAll('link[href*="localhost"]').forEach(el => el.remove());
       });
 
-      const html = await page.content();
+      let html = await page.content();
+      html = html.replaceAll('http://localhost:4173', '');
 
       let outPath;
       if (route === '/') {
