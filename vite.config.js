@@ -11,7 +11,7 @@ export default defineConfig({
     process.env.ANALYZE ? visualizer({ filename: 'stats.html', open: false, gzipSize: true }) : null
   ],
   build: {
-    target: 'es2020',
+    target: 'es2022',
     cssCodeSplit: true,
     modulePreload: {
       resolveDependencies: (filename, deps) => {

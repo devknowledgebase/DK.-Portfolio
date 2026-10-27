@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './Hero.css'
-import { Arrowright, Logo } from './assets/icons.jsx'
+import { Arrowright, Logo } from './assets/hero-icons.jsx'
 import CurvedLoop from './CurvedLoop.jsx'
 
 
