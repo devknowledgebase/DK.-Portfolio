@@ -232,10 +232,11 @@ function generateStaticRoute(templateHtml, route) {
   const jsonLdScript = `<script type="application/ld+json">${JSON.stringify(data.jsonLd)}</script>`;
   html = html.replace('</head>', `  ${jsonLdScript}\n</head>`);
 
-  // Inject semantic fallback content inside <div id="root"></div>
+  // Inject semantic fallback content inside <noscript> for search crawlers,
+  // leaving <div id="root"></div> clean for React so users with JS never see unstyled fallback text
   html = html.replace(
     /<div id="root"><\/div>/i,
-    `<div id="root">${data.bodyHtml}</div>`
+    `<div id="root"></div>\n  <noscript><div class="seo-fallback">\n${data.bodyHtml}\n  </div></noscript>`
   );
 
   return html;
