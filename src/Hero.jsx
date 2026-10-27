@@ -1,7 +1,6 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import './Hero.css'
 import { Arrowright, Logo } from './assets/icons.jsx'
-import figure from './assets/figure.png'
 import CurvedLoop from './CurvedLoop.jsx'
 
 
@@ -82,10 +81,15 @@ function Hero() {
           outline={false}
         />
       </div>
+      {/* LCP element: moved to /public for stable URL, preloaded in index.html */}
       <img
         className="hero-figure"
-        src={figure}
+        src="/figure.webp"
         alt="Figure in a chrome helmet and dark cloak"
+        width="447"
+        height="559"
+        fetchpriority="high"
+        decoding="async"
       />
         <div className='hero-content'>
           <div className='hero-text'>

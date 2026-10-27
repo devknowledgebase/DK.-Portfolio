@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import './App.css'
 import Hero from './Hero.jsx'
-import Work from './Work.jsx'
-import About from './About.jsx'
-import Footer from './Footer.jsx'
 import GradualBlur from './component/GradualBlur.jsx'
 import LoadingScreen from './LoadingScreen.jsx'
 import SEOHead from './components/SEOHead.jsx'
 import NotFound from './components/NotFound.jsx'
 
+// Code-split below-the-fold sections: none of these are needed for first paint
+const Work = lazy(() => import('./Work.jsx'));
+const About = lazy(() => import('./About.jsx'));
+const Footer = lazy(() => import('./Footer.jsx'));
 const Casestudy = lazy(() => import('./Casestudy.jsx'));
 
 // ──────────────────────────────────────────────
@@ -216,10 +217,18 @@ function App() {
             path="/"
             jsonLd={homeJsonLd}
           />
+          {/* Hero & nav stay in the initial bundle — critical for LCP */}
           <Hero />
-          <Work onOpenCaseStudy={navigateToCaseStudy} />
-          <About />
-          <Footer />
+          {/* Below-the-fold sections are code-split; Suspense with null fallback avoids layout shift */}
+          <Suspense fallback={null}>
+            <Work onOpenCaseStudy={navigateToCaseStudy} />
+          </Suspense>
+          <Suspense fallback={null}>
+            <About />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </main>
       )}
 

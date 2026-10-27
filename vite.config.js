@@ -15,19 +15,23 @@ export default defineConfig({
     cssCodeSplit: true,
     modulePreload: {
       resolveDependencies: (filename, deps) => {
-        return deps.filter(dep => !dep.includes('vendor-supabase') && !dep.includes('vendor-three'));
+        // Don't preload heavy vendor chunks — they are loaded on demand
+        return deps.filter(dep =>
+          !dep.includes('vendor-supabase') &&
+          !dep.includes('vendor-three') &&
+          !dep.includes('vendor-gsap') &&
+          !dep.includes('vendor-scroll')
+        );
       }
     },
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('vite') || id.includes('rolldown') || id.includes('tslib')) {
-            return 'vendor-react';
+          // Keep three.js / react-three out of the main bundle (unused in prod but still in deps)
+          if (id.includes('three') || id.includes('@react-three')) {
+            return 'vendor-three';
           }
           if (id.includes('node_modules')) {
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'vendor-three';
-            }
             if (id.includes('@supabase')) {
               return 'vendor-supabase';
             }
@@ -35,9 +39,19 @@ export default defineConfig({
               return 'vendor-scroll';
             }
             if (id.includes('gsap')) {
+              // GSAP is now dynamically imported by LoadingScreen — keeps it out of entry
               return 'vendor-gsap';
             }
-            if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('scheduler')) {
+            if (
+              id.includes('/react/') ||
+              id.includes('/react-dom/') ||
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('scheduler') ||
+              id.includes('vite') ||
+              id.includes('rolldown') ||
+              id.includes('tslib')
+            ) {
               return 'vendor-react';
             }
           }

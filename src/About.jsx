@@ -1,6 +1,6 @@
 import "./About.css";
 import {Clerk, Css, Vercel, Figma, Gads, Ganalytics, Html, Js, Meta, Pinterest, React, Seen, CircularText} from './assets/icons.jsx'
-import figure from "./assets/figure_white_coat.png"
+import figure from "./assets/figure_white_coat.webp"
 const iconStyle = { width: "var(--icon-scroll-size)", height: "var(--icon-scroll-size)" };
 const tools = [
     <Clerk key="clerk" style={iconStyle} />,
@@ -36,7 +36,16 @@ function About(){
                     <div className="figure-ring" aria-hidden="true">
                         <CircularText className="figure-ring-svg" />
                     </div>
-                    <img className="figure_white_coat" src={figure} alt="figure_white_coat" />
+                    {/* WebP, explicit dimensions, lazy-loaded (below the fold) */}
+                    <img
+                        className="figure_white_coat"
+                        src={figure}
+                        alt="Dev Kumar in a white coat"
+                        width="314"
+                        height="428"
+                        loading="lazy"
+                        decoding="async"
+                    />
                 </div>
                 </div>
                 <div className="tool-scroll-container">

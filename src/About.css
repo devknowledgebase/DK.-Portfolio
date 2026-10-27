@@ -38,12 +38,13 @@
     gap: 12px;
     margin: 40px 0px 0px calc(var(--about-pad) - 4px);
     cursor: pointer;
-    transition: border-width 0.1s linear;
+    transition: box-shadow 0.15s ease, transform 0.2s ease;
     text-decoration: none;
     color: #000000;
 }
 .about-btn:hover {
-    border-width: 1.6px;
+    box-shadow: 0 0 0 1.5px #000;
+    transform: translateY(-1px);
     color: #000000;
     text-decoration: none;
 }

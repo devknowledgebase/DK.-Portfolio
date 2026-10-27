@@ -116,17 +116,21 @@ function Work({ onOpenCaseStudy }) {
             if (bar) bar.style.transform = `scaleX(${current})`
             // light parallax on each image, based on the card's distance from viewport centre
             const vw = window.innerWidth
+            // Batch ALL reads first to avoid forced reflow (layout thrashing)
+            const rects = cards.map((card) => card.getBoundingClientRect())
+            const offsets = cards.map((card) => card.offsetLeft)
+            // Then batch all writes
             cards.forEach((card, i) => {
-                const r = card.getBoundingClientRect()
+                const r = rects[i]
                 const d = (r.left + r.width / 2 - vw / 2) / vw // -1..1 roughly
-                card.style.setProperty('--shift', `${(-d * 40).toFixed(1)}px`)
                 // cards rise from the bottom as they travel in from the right (first card starts at rest)
                 let lift = 0
                 if (i > 0) {
-                    const rest = Math.max(card.offsetLeft - distance, vw * 0.15)
+                    const rest = Math.max(offsets[i] - distance, vw * 0.15)
                     const t = Math.min(1, Math.max(0, (r.left - rest) / (vw - rest)))
                     lift = t * window.innerHeight * 0.9
                 }
+                card.style.setProperty('--shift', `${(-d * 40).toFixed(1)}px`)
                 card.style.setProperty('--lift', `${lift.toFixed(1)}px`)
             })
         }
@@ -189,11 +193,12 @@ function Work({ onOpenCaseStudy }) {
                                 <img
                                     src={item.image}
                                     srcSet={item.srcSet}
-                                    sizes="(max-width: 640px) 100vw, 740px"
+                                    sizes="(max-width: 640px) 86vw, (max-width: 1100px) 82vw, 740px"
                                     alt={item.alt}
                                     width="740"
                                     height="600"
                                     decoding="async"
+                                    loading="lazy"
                                     draggable="false"
                                 />
 

@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
-import gsap from 'gsap';
+// GSAP is loaded dynamically so it doesn't block the initial JS parse (keeps it out of entry chunk)
 import './LoadingScreen.css';
 
 // Set troubleshoot to true to pause the sequence on the centered DK. monogram for inspection/styling
@@ -27,8 +27,12 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
     let isMounted = true;
     let ctx = null;
 
-    const initAnimation = () => {
+    const initAnimation = async () => {
       if (!isMounted || !containerRef.current || !wordmarkRef.current) return;
+
+      // Dynamic import: GSAP only executes when the loading screen is actually running
+      const { default: gsap } = await import('gsap');
+      if (!isMounted) return;
 
       ctx = gsap.context(() => {
         // Collect exiting letters in the EXACT specified order: e -> v -> u -> m -> a -> r
