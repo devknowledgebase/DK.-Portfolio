@@ -46,11 +46,13 @@
  --neutral-80: #1F2937;
  --neutral-90: #111827;
  --neutral-100: #030712;
+ --neutral-black:#000000;
  --icon-scroll-size: 160px;
  --primary-icon-size: 66px;
  --secondary-icon-size: 66px;
  --primary-font-size: 34px;
  --secondary-font-size: 38px;
+ --tertiary-font-size: 20px;
  --card-width: 740px;
  --card-height: 600px;
  --card-border-radius: 40px;
@@ -58,11 +60,14 @@
  --casestudy-tool-height: var(--casestudy-tool-width);
  --btn: 70px;
  --gap: 10px;
- --btn-bg: #ffffff;
+ --btn-bg: none;
  --btn-color: #000000;
  --n: calc(var(--btn) + var(--gap) * 2);
  --f: 20px;
  --r: 40px;
+ --ember: #ff5a1f;
+ --amber: #ffb020;
+ --heat: #fff1c2;
 }
 
 /* Tablet */

@@ -1,19 +1,22 @@
 .about {
     width: 100%;
-    height: 110vh;
+    height: fit-content;
+    background: var(--neutral-black);
+    padding: 50px 0px 40px 0px;
+    overflow-x: clip; /* the ring is wider than the figure */
 }
 .about-text-1 {
     font-family: 'ClashGrotesk';
     font-size: 72px;
-    color: var(--neutral-100);
+    color: var(--neutral-0);
+    max-width: 100%;
     font-weight: 600;
-    max-width: 852px;
-    margin: 80px 0px 0px 72px;
+    padding: 0px 72px;
 }
 .about-text-2 {
     font-family: 'ClashGrotesk';
     font-size: 18px;
-    color: var(--neutral-100);
+    color: var(--neutral-0);
     font-weight: 400;
     max-width: 781px;
     margin: 20px 0px 0px 72px;
@@ -64,7 +67,77 @@
     animation: scroll 20s linear infinite;
     flex-shrink: 0;
 }
+.text-img {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+.text-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+.figure_white_coat {
+    width: auto;
+    height: auto;
+    max-height: 520px;
+    max-width: min(400px, 32vw);
+    object-fit: contain;
+    align-self: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;      /* figure sits in front of the ring text */
+    display: block;
+}
 
+/* Text on a circular path around the figure */
+.figure-wrap {
+    position: relative;
+    flex-shrink: 0;
+    align-self: center;
+    margin-right: 72px;
+    display: flex;
+    overflow: visible;
+}
+/* Small ring centred on the figure's top-left corner. The wrapper is static and masked to an arc
+   (left, over the top, to the upper right); the SVG inside spins, so the text travels through the arc. */
+.figure-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Measured from example.svg: ring centre is ~23% of the figure's width in from its left edge and ~19% down from its top;
+       text-line radius is ~40% of the figure's width. */
+    width: 89%;             /* ring size (radius = 45% of this) */
+    aspect-ratio: 1;
+    translate: -23.6% -28.2%;
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: conic-gradient(from 0deg, #000 0deg, #000 50deg, transparent 75deg, transparent 195deg, #000 215deg, #000 360deg);
+    mask-image: conic-gradient(from 0deg, #000 0deg, #000 50deg, transparent 75deg, transparent 195deg, #000 215deg, #000 360deg);
+}
+.figure-ring-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    animation: ring-spin 24s linear infinite;
+}
+.figure-ring-text {
+    font-family: 'ClashGrotesk';
+    font-size: 80px;
+    font-weight: 500;
+    fill: var(--neutral-0);
+}
+.figure-ring-star { fill: #ff5a1f; }
+@keyframes ring-spin {
+    to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .figure-ring-svg { animation: none; }
+}
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -79,6 +152,18 @@
     .about {
         height: auto;
         padding-bottom: 40px;
+    }
+    .text-img {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+    .figure-wrap {
+        margin: 72px auto 0 auto;   /* room for the ring above the figure */
+    }
+    .figure_white_coat {
+        max-width: 300px;
+        max-height: 400px;
     }
     .about-text-1 {
         font-size: clamp(36px, 6vw, 72px);
@@ -105,6 +190,13 @@
 
 /* ── Mobile (≤ 640px) ────────────────────────────────── */
 @media (max-width: 640px) {
+    .figure-wrap {
+        margin: 60px auto 0 auto;
+    }
+    .figure_white_coat {
+        max-width: 240px;
+        max-height: 320px;
+    }
     .about-text-1 {
         font-size: clamp(28px, 8vw, 48px);
         margin: 40px 0 0 20px;

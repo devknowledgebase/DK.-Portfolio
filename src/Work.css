@@ -1,23 +1,57 @@
+/* Scroll-driven horizontal section.
+   .work gets its height from JS (100vh + horizontal distance); .work-sticky pins
+   for that whole length while vertical scroll slides .work-track sideways. */
 .work {
+    position: relative;
     width: 100%;
-    height: fit-content;
+    background: var(--neutral-black);
+}
+
+.work-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.work-track {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding: 0 48px 0 32px;
+    width: max-content;
+    will-change: transform;
 }
 
 .featured {
+    flex: 0 0 auto;
     font-family: 'ClashGrotesk';
     font-size: 60px;
     font-weight: 600;
+    line-height: 1.05;
     text-align: left;
-    margin: 0px 0px 0px 32px;
+    margin: 0 80px 0 0;
+    color: var(--neutral-0);
 }
 
-.work-cards-container {
-    display: grid;
-    grid-template-columns: repeat(2, 740px);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 16px;
-    justify-content: center;
-    margin-top: 20px;
+.work-progress {
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 28px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.work-progress span {
+    display: block;
+    height: 100%;
+    background: var(--neutral-0, #fff);
+    transform-origin: left center;
+    transform: scaleX(0);
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -30,10 +64,27 @@
    --r        radius of the inner (concave) corner of the notch
    ───────────────────────────────────────────────────────── */
 .work-card {
+    flex: 0 0 auto;
     width: var(--card-width);
     height: var(--card-height);
     position: relative;
+    --shift: 0px;
+    --lift: 0px;
+    translate: 0 var(--lift);
 }
+
+/* thin divider between cards, like the reference */
+.work-card::after {
+    content: '';
+    position: absolute;
+    top: -40vh;
+    bottom: -40vh;
+    right: -24px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+.work-card:last-child::after { display: none; }
 
 /* Everything visual lives here so the notch mask never clips the button */
 .card-surface {
@@ -108,6 +159,8 @@
     object-fit: cover;
     display: block;
     z-index: 1;
+    transform: scale(1.12);
+    translate: var(--shift) 0;
     transition: transform 0.6s ease;
 }
 
@@ -202,62 +255,62 @@
     }
 }
 
+/* "View all projects" button at the end of the row */
+.work-all {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 48px 0 8px;
+    padding: 22px 34px;
+    border-radius: 999px;
+    background: var(--neutral-0, #fff);
+    color: var(--neutral-black, #0b0b0d);
+    font-family: 'ClashGrotesk';
+    font-size: 22px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.25s ease;
+}
+.work-all:hover { transform: scale(1.04); }
+.work-all:focus-visible { outline: 3px solid var(--neutral-0, #fff); outline-offset: 3px; }
+.work-all-arrow { width: 28px; height: 28px; flex-shrink: 0; transition: transform 0.25s ease; }
+.work-all:hover .work-all-arrow { transform: rotate(45deg); }
+@media (max-width: 640px) {
+    .work-all { font-size: 17px; padding: 16px 24px; margin-right: 24px; }
+    .work-all-arrow { width: 22px; height: 22px; }
+}
+
+/* Reduced motion: no pinning, just a swipeable row */
+@media (prefers-reduced-motion: reduce) {
+    .work-sticky { position: static; height: auto; overflow-x: auto; padding: 20px 0 40px; }
+    .work-track { transform: none !important; }
+    .work-card { translate: none; }
+    .work-progress { display: none; }
+    .card-surface img { translate: 0 0; }
+}
+
 /* ── Tablet (≤ 1100px) ───────────────────────────────── */
 @media (max-width: 1100px) {
-    .work-cards-container {
-        grid-template-columns: 1fr;
-        padding: 0 24px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .work-card {
-        width: 100%;
-        height: var(--card-height);
-    }
-    .featured {
-        font-size: 44px;
-        margin-left: 24px;
-    }
-    .card-text p {
-        font-size: 32px;
-    }
-    .card-text {
-        margin: 24px 0 0 28px;
-        max-width: calc(100% - var(--n) - 56px);
-    }
-    .card-badge {
-        top: 80px;
-        left: 28px;
-    }
+    .work-card { width: min(var(--card-width), 82vw); }
+    .featured { font-size: 44px; margin-right: 48px; }
+    .work-track { gap: 32px; padding: 0 32px 0 24px; }
+    .work-card::after { right: -16px; }
+    .card-text p { font-size: 32px; }
+    .card-text { margin: 24px 0 0 28px; max-width: calc(100% - var(--n) - 56px); }
+    .card-badge { top: 80px; left: 28px; }
 }
 
 /* ── Mobile (≤ 640px) ────────────────────────────────── */
 @media (max-width: 640px) {
-    .featured {
-        font-size: 32px;
-        margin-left: 16px;
-    }
-    .work-cards-container {
-        padding: 0 12px;
-        gap: 12px;
-    }
-    .work-card {
-        height: var(--card-height);
-    }
-    .card-text p {
-        font-size: 22px;
-    }
-    .card-description {
-        font-size: 14px;
-    }
-    .card-text {
-        margin: 16px 0 0 20px;
-        max-width: calc(100% - var(--n) - 36px);
-    }
-    .card-badge {
-        top: 70px;
-        left: 20px;
-        font-size: 11px;
-        padding: 4px 10px;
-    }
+    .work-card { width: 86vw; }
+    .featured { font-size: 32px; margin-right: 32px; }
+    .work-track { gap: 20px; padding: 0 20px 0 16px; }
+    .work-card::after { right: -10px; }
+    .work-progress { left: 16px; right: 16px; bottom: 20px; }
+    .card-text p { font-size: 22px; }
+    .card-description { font-size: 14px; }
+    .card-text { margin: 16px 0 0 20px; max-width: calc(100% - var(--n) - 36px); }
+    .card-badge { top: 70px; left: 20px; font-size: 11px; padding: 4px 10px; }
 }
