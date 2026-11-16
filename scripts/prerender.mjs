@@ -88,23 +88,43 @@ const ROUTE_DATA = {
     },
     bodyHtml: `
       <main id="main-content">
-        <header class="hero-fallback" style="padding:40px 20px;max-width:1100px;margin:0 auto;">
-          <p style="font-size:24px;margin-bottom:8px;">Hello, I'm</p>
-          <h1 style="font-size:48px;font-weight:700;margin:0 0 16px;">Dev Kumar</h1>
-          <p style="font-size:20px;max-width:700px;line-height:1.5;">Turning Ideas into Interactive, Modern & Scalable Web Experiences.</p>
+        <nav aria-label="Main navigation" style="display:flex;gap:24px;align-items:center;padding:20px;max-width:1100px;margin:0 auto;">
+          <a href="/" style="color:inherit;text-decoration:none;font-weight:700;">Dev Kumar</a>
+          <a href="/#Home" style="color:inherit;text-decoration:none;">Home</a>
+          <a href="/#Work" style="color:inherit;text-decoration:none;">Work</a>
+          <a href="/#About" style="color:inherit;text-decoration:none;">About</a>
+          <a href="/#Footer" style="color:inherit;text-decoration:none;">Let's Talk</a>
+        </nav>
+        <header id="Home" style="padding:40px 20px;max-width:1100px;margin:0 auto;">
+          <p style="font-size:24px;margin-bottom:8px;">Hello! I'm Dev.</p>
+          <h1 style="font-size:48px;font-weight:700;margin:0 0 16px;">Turning Ideas into Interactive Digital Products</h1>
+          <p><a href="/#About" style="color:inherit;font-weight:600;">About Me</a></p>
         </header>
         <section id="Work" style="padding:40px 20px;max-width:1100px;margin:0 auto;">
           <h2 style="font-size:32px;margin-bottom:24px;">Featured Works</h2>
-          <article style="margin-bottom:32px;">
-            <h3 style="font-size:24px;"><a href="/casestudy" style="color:inherit;text-decoration:none;">Lunara — Pinterest Marketing Case Study</a></h3>
-            <p style="line-height:1.6;margin-top:8px;">How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization.</p>
+          <article style="margin-bottom:24px;">
+            <h3 style="font-size:24px;"><a href="https://ai-searcho.vercel.app/" style="color:inherit;text-decoration:none;">Ai Searcho</a></h3>
+          </article>
+          <article style="margin-bottom:24px;">
+            <h3 style="font-size:24px;"><a href="https://devknowledgebase.github.io/Genova-Labs/" style="color:inherit;text-decoration:none;">Genova Labs</a></h3>
+          </article>
+          <article style="margin-bottom:24px;">
+            <h3 style="font-size:24px;"><a href="/casestudy" style="color:inherit;text-decoration:none;">Lunara</a></h3>
+            <p style="line-height:1.6;margin-top:8px;">Lunara — Pinterest Marketing Case Study: how I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization.</p>
             <p><a href="/casestudy" style="color:#2b45f8;font-weight:600;">Read Case Study →</a></p>
+          </article>
+          <article style="margin-bottom:24px;">
+            <h3 style="font-size:24px;"><a href="https://www.behance.net/gallery/253368559/Washit-UiUx-Case-Study" style="color:inherit;text-decoration:none;">Washit</a></h3>
           </article>
         </section>
         <section id="About" style="padding:40px 20px;max-width:1100px;margin:0 auto;">
           <h2 style="font-size:32px;margin-bottom:16px;">Combining Development, Design, and Digital Marketing</h2>
-          <p style="line-height:1.6;max-width:800px;">Building modern websites with code, creativity, and digital strategy. Frontend Developer and Digital Marketing enthusiast with experience in React.js, HTML, CSS, JavaScript, Figma, SEO, and content marketing.</p>
-          <p style="margin-top:20px;"><a href="/Resume_.pdf" target="_blank" rel="noopener noreferrer" style="color:#000000;font-weight:600;text-decoration:none;border:1.5px solid #000;padding:12px 24px;border-radius:100px;display:inline-block;">View CV</a></p>
+          <p style="line-height:1.6;max-width:800px;">Building modern websites with code, creativity, and digital strategy. I'm a Frontend Developer and Digital Marketing enthusiast with experience in React.js, HTML, CSS, JavaScript, Figma, SEO, and content marketing. I enjoy creating responsive, user-friendly websites while applying SEO and analytics to improve visibility and engagement. From designing interfaces in Figma to developing them with React and optimizing them for search engines, I'm passionate about building digital experiences that are both beautiful and effective.</p>
+          <p style="margin-top:20px;"><a href="/Resume_.pdf" target="_blank" rel="noopener noreferrer" style="color:inherit;font-weight:600;text-decoration:none;border:1.5px solid currentColor;padding:12px 24px;border-radius:100px;display:inline-block;">View CV</a></p>
+        </section>
+        <section id="Footer" style="padding:40px 20px;max-width:1100px;margin:0 auto;">
+          <h2 style="font-size:32px;margin-bottom:16px;">Contact Me</h2>
+          <p><a href="https://www.linkedin.com/in/kumaardev/" style="color:inherit;">LinkedIn</a> · <a href="https://github.com/devknowledgebase" style="color:inherit;">GitHub</a> · <a href="https://x.com/Dev3807" style="color:inherit;">X (Twitter)</a></p>
         </section>
       </main>
     `,

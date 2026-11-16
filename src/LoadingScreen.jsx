@@ -204,7 +204,7 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
       role="status"
     >
       <div ref={containerRef} className="loader-stage">
-        <h1 ref={wordmarkRef} className="loader-wordmark" aria-label="Dev Kumar">
+        <div ref={wordmarkRef} className="loader-wordmark" role="img" aria-label="Dev Kumar">
           {/* First Word: Dev */}
           <span className="loader-word word-dev">
             <span ref={dWrapRef} className="loader-letter-wrap letter-d">
@@ -241,7 +241,7 @@ export default function LoadingScreen({ onComplete, troubleshoot = DEFAULT_TROUB
               <span className="loader-letter-inner">r</span>
             </span>
           </span>
-        </h1>
+        </div>
       </div>
     </div>
   );
