@@ -8,7 +8,8 @@
  *     libnspr4.so are absent) or if browser launch fails, it seamlessly falls back to
  *     static HTML route generation. It creates dist/index.html and dist/casestudy/index.html
  *     with full route-specific SEO metadata (Title, Description, Canonical, OpenGraph,
- *     Twitter cards, JSON-LD structured data) and semantic HTML content.
+ *     Twitter cards, a single JSON-LD block) and semantic HTML content placed inside
+ *     <div id="root"> (React's createRoot replaces it on mount).
  *
  * Result: The build NEVER crashes on Vercel, and crawlers always get fully indexed pages.
  *
@@ -177,7 +178,31 @@ const ROUTE_DATA = {
 };
 
 /**
- * Generate a static HTML page by injecting route-specific metadata and fallback content into the template dist/index.html.
+ * Escape text for safe use inside HTML text nodes and double-quoted attributes.
+ */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/**
+ * Make this route's JSON-LD the ONLY JSON-LD block in the page.
+ * Strips any existing blocks (e.g. the home-page one hard-coded in index.html)
+ * and injects the route-specific one before </head>.
+ * "<" is escaped so the JSON can never close the script tag early.
+ */
+function setJsonLd(html, jsonLd) {
+  const script = `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`;
+  return html
+    .replace(/[ \t]*<script\s+type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>[ \t]*\n?/gi, '')
+    .replace('</head>', () => `  ${script}\n</head>`);
+}
+
+/**
+ * Generate a static HTML page by injecting route-specific metadata and content into the template dist/index.html.
  */
 function generateStaticRoute(templateHtml, route) {
   const data = ROUTE_DATA[route];
@@ -185,58 +210,64 @@ function generateStaticRoute(templateHtml, route) {
 
   let html = templateHtml;
 
+  const title = escapeHtml(data.title);
+  const description = escapeHtml(data.description);
+  const canonical = escapeHtml(data.canonical);
+  const ogType = escapeHtml(data.ogType);
+
   // Replace Title
-  html = html.replace(/<title>.*?<\/title>/gi, `<title>${data.title}</title>`);
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${title}</title>`);
 
   // Replace Description
   html = html.replace(
     /<meta\s+name="description"\s+content="[^"]*"/i,
-    `<meta name="description" content="${data.description}"`
+    () => `<meta name="description" content="${description}"`
   );
 
   // Replace Canonical Link
   html = html.replace(
     /<link\s+rel="canonical"\s+href="[^"]*"/i,
-    `<link rel="canonical" href="${data.canonical}"`
+    () => `<link rel="canonical" href="${canonical}"`
   );
 
   // Replace OG tags
   html = html.replace(
     /<meta\s+property="og:title"\s+content="[^"]*"/i,
-    `<meta property="og:title" content="${data.title}"`
+    () => `<meta property="og:title" content="${title}"`
   );
   html = html.replace(
     /<meta\s+property="og:description"\s+content="[^"]*"/i,
-    `<meta property="og:description" content="${data.description}"`
+    () => `<meta property="og:description" content="${description}"`
   );
   html = html.replace(
     /<meta\s+property="og:url"\s+content="[^"]*"/i,
-    `<meta property="og:url" content="${data.canonical}"`
+    () => `<meta property="og:url" content="${canonical}"`
   );
   html = html.replace(
     /<meta\s+property="og:type"\s+content="[^"]*"/i,
-    `<meta property="og:type" content="${data.ogType}"`
+    () => `<meta property="og:type" content="${ogType}"`
   );
 
   // Replace Twitter tags
   html = html.replace(
     /<meta\s+name="twitter:title"\s+content="[^"]*"/i,
-    `<meta name="twitter:title" content="${data.title}"`
+    () => `<meta name="twitter:title" content="${title}"`
   );
   html = html.replace(
     /<meta\s+name="twitter:description"\s+content="[^"]*"/i,
-    `<meta name="twitter:description" content="${data.description}"`
+    () => `<meta name="twitter:description" content="${description}"`
   );
 
-  // Inject JSON-LD structured data before </head>
-  const jsonLdScript = `<script type="application/ld+json">${JSON.stringify(data.jsonLd)}</script>`;
-  html = html.replace('</head>', `  ${jsonLdScript}\n</head>`);
+  // JSON-LD: exactly one block per page (replaces the one hard-coded in index.html)
+  html = setJsonLd(html, data.jsonLd);
 
-  // Inject semantic fallback content inside <noscript> for search crawlers,
-  // leaving <div id="root"></div> clean for React so users with JS never see unstyled fallback text
+  // Put the semantic content INSIDE #root so it is part of the first-pass HTML that
+  // crawlers read (content in <noscript> is ignored by Google, which renders with JS on).
+  // main.jsx uses createRoot(), which discards this markup on mount, so there is no
+  // hydration mismatch and users end up with the real React UI.
   html = html.replace(
     /<div id="root"><\/div>/i,
-    `<div id="root"></div>\n  <noscript><div class="seo-fallback">\n${data.bodyHtml}\n  </div></noscript>`
+    () => `<div id="root">\n${data.bodyHtml}\n  </div>`
   );
 
   return html;
@@ -374,6 +405,9 @@ async function prerender() {
 
       let html = await page.content();
       html = html.replaceAll('http://localhost:4173', '');
+      // Structured data comes from ROUTE_DATA only (SEOHead no longer emits JSON-LD),
+      // so each route gets exactly one correct block.
+      html = setJsonLd(html, ROUTE_DATA[route].jsonLd);
 
       let outPath;
       if (route === '/') {

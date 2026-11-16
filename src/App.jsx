@@ -13,65 +13,6 @@ const Casestudy = lazy(() => import('./Casestudy.jsx'));
 const GradualBlur = lazy(() => import('./component/GradualBlur.jsx'));
 
 // ──────────────────────────────────────────────
-// JSON-LD structured data
-// ──────────────────────────────────────────────
-const homeJsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ProfilePage",
-      "@id": "https://devkumar.is-a.dev/#profile",
-      "url": "https://devkumar.is-a.dev/",
-      "name": "Dev Kumar | Portfolio",
-      "dateCreated": "2025-01-01T00:00:00+00:00",
-      "dateModified": "2026-10-22T00:00:00+00:00",
-      "mainEntity": {
-        "@type": "Person",
-        "@id": "https://devkumar.is-a.dev/#person",
-        "name": "Dev Kumar",
-        "url": "https://devkumar.is-a.dev/",
-        "jobTitle": "Frontend Developer & Digital Marketing Enthusiast",
-        "description":
-          "Building modern websites with code, creativity, and digital strategy. Frontend Developer and Digital Marketing enthusiast with experience in React.js, HTML, CSS, JavaScript, Figma, SEO, and content marketing.",
-        "image": "https://devkumar.is-a.dev/og-preview.png",
-        "sameAs": [
-          "https://www.linkedin.com/in/kumaardev/",
-          "https://github.com/devknowledgebase",
-          "https://x.com/Dev3807",
-        ],
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://devkumar.is-a.dev/#website",
-      "name": "Dev Kumar | Portfolio",
-      "url": "https://devkumar.is-a.dev/",
-    },
-  ],
-};
-
-const casestudyJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Lunara — Pinterest Marketing Case Study",
-  "description":
-    "How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization.",
-  "image": "https://devkumar.is-a.dev/og-preview.png",
-  "datePublished": "2026-01-15T00:00:00+00:00",
-  "dateModified": "2026-10-22T00:00:00+00:00",
-  "author": {
-    "@type": "Person",
-    "name": "Dev Kumar",
-    "url": "https://devkumar.is-a.dev/",
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Dev Kumar",
-  },
-  "mainEntityOfPage": "https://devkumar.is-a.dev/casestudy",
-};
-
-// ──────────────────────────────────────────────
 // Route resolver
 // ──────────────────────────────────────────────
 function getRouteFromPath(pathname) {
@@ -234,7 +175,6 @@ function App() {
             description="How I grew a Pinterest brand to 164K+ impressions and 113K audience through organic content strategy, Pinterest SEO, and data-driven optimization."
             path="/casestudy"
             ogType="article"
-            jsonLd={casestudyJsonLd}
           />
           <Suspense fallback={null}>
             <Casestudy onBack={handleBackFromCaseStudy} />
@@ -246,7 +186,6 @@ function App() {
             title="Dev Kumar | Frontend Developer & Digital Marketing Enthusiast"
             description="Frontend Developer crafting modern UI/UX and driving growth with digital marketing, social media marketing, and responsive web design."
             path="/"
-            jsonLd={homeJsonLd}
           />
           {/* Hero & nav stay in the initial bundle — critical for LCP */}
           <Hero />
